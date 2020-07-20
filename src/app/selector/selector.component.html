@@ -1,1 +1,11 @@
-<p>selector works!</p>
+<p>
+
+  <i class="fas fa-arrow-left" (click)="go(-1)"></i>
+
+  <span>
+    {{ this.dateService.date |async |moment: 'YYYY MMMM' }}
+  </span>
+
+  <i class="fas fa-arrow-right" (click)="go(1)"></i>
+
+</p>
