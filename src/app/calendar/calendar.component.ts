@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import {DateService} from '../shared/date.service';
 
-
 interface Day {
   value: moment.Moment;
   active: boolean;
   disabled: boolean;
   selected: boolean;
+  hasTasks: boolean;
 }
+moment.locale('ru');
 
 interface Week {
   days: Day[];
@@ -41,8 +42,9 @@ export class CalendarComponent implements OnInit {
           const active = moment().isSame(value, 'date');
           const disabled = !now.isSame(value, 'month');
           const selected = now.isSame(value, 'date');
+          const hasTasks = false; // ================= доделать !!!!
           return {
-            value, active, disabled, selected
+            value, active, disabled, selected, hasTasks
           };
         })
       });

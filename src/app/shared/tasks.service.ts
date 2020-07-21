@@ -31,7 +31,7 @@ export class TasksService {
             id: response.name
           };
         })
-      )
+      );
   }
   load(date: moment.Moment): Observable<Task[]> {
     const result = this.http
@@ -46,8 +46,7 @@ export class TasksService {
             id: key
           }));
         })
-      )
-    console.log(result);
+      );
     return result;
   }
   remove(task: Task): Observable<void> {

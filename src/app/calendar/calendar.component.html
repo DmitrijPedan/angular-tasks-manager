@@ -1,31 +1,38 @@
-<table>
-  <thead>
-  <tr>
-    <th>Sun</th>
-    <th>Mon</th>
-    <th>Tue</th>
-    <th>Wen</th>
-    <th>Thu</th>
-    <th>Fri</th>
-    <th>Sat</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let week of calendar">
-    <td
-      *ngFor="let day of week.days"
-      [class.disabled]="day.disabled"
-      (click)="select(day.value)"
-    >
+<section>
+  <table>
+    <thead>
+    <tr>
+      <th class="weekday">Пн</th>
+      <th class="weekday">Вт</th>
+      <th class="weekday">Ср</th>
+      <th class="weekday">Чт</th>
+      <th class="weekday">Пт</th>
+      <th class="saturday">Сб</th>
+      <th class="sunday">Вс</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let week of calendar">
+      <td
+        *ngFor="let day of week.days; let i = index"
+        [class.weekday]="i<5"
+        [class.saturday]="i==5"
+        [class.sunday]="i==6"
+        [class.bold]="day.hasTasks"
+        [class.disabled]="day.disabled"
+        (click)="select(day.value)"
+      >
       <span
         [class.selected]="day.selected"
         [class.active]="day.active"
       >
-        {{ day.value | moment: 'ddd DD' }}
+        {{ day.value | moment: 'DD' }}
       </span>
 
-    </td>
-  </tr>
-  </tbody>
+      </td>
+    </tr>
+    </tbody>
 
-</table>
+  </table>
+</section>
+

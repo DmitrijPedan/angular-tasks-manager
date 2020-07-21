@@ -1,3 +1,10 @@
+section {
+  background-color: #e7eef5;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
 table {
   width: 100%;
   margin-bottom: 1rem;
@@ -9,11 +16,12 @@ table {
   td {
     text-align: center;
     transition: all .2s;
+    //background-color: white;
     &.disabled {
       opacity: 0.5;
     }
     &:hover:not(.disabled) {
-      background: #eee;
+      background: #d8f6af;
       cursor: pointer;
     }
     .active {
@@ -25,3 +33,20 @@ table {
     }
   }
 }
+
+.weekday {
+  background-color: white;
+}
+
+.saturday {
+  background-color: #fcdada;
+}
+
+.sunday {
+  background-color: #fdb3b3;
+}
+
+.bold {
+  font-weight: bold;
+}
+

@@ -1,10 +1,10 @@
 <section>
   <header>
-    Organizer: <strong>{{ this.dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
+    Органайзер: <strong>{{ this.dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
     <hr/>
   </header>
 
-  <p>Tasks:</p>
+  <p>Задачи:</p>
   <main>
     <ul *ngIf="tasks.length; else noTasks">
       <li class="task" *ngFor="let task of tasks; let i = index">
@@ -12,27 +12,27 @@
           <strong>{{ i + 1 }}</strong>
           {{task.title}}
         </span>
-        <button class="btn btn-primary" (click)="remove(task)">Remove</button>
+        <button class="btn btn-primary" (click)="remove(task)">Удалить</button>
       </li>
     </ul>
     <ng-template #noTasks>
-      <p class="text-center">No tasks</p>
+      <p class="text-center">На выбранную дату нет задач ...</p>
     </ng-template>
   </main>
 
-  <p>Add new task:</p>
+  <p>Добавить новую задачу:</p>
   <footer>
     <form
       (ngSubmit)="submit()"
       [formGroup]="form"
     >
-      <label>Type your task:</label>
-      <input type="text" placeholder="Add new task" formControlName="title">
+      <label>Новая задача:</label>
+      <input type="text" placeholder="Введите описание задачи" formControlName="title">
       <button
         type="submit"
         class="btn btn-primary btn-block"
         [disabled]="form.invalid"
-      >Add</button>
+      >Добавить</button>
     </form>
   </footer>
 
