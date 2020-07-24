@@ -4,7 +4,7 @@
 
 
 :root {
-  --primary-color: #dc3545;
+  --primary-color: #338af5;
   --dark-color: #333333;
   --light-color: #f4f4f4;
 }
@@ -95,6 +95,11 @@ table th {
 
 .btn-primary {
   background: var(--primary-color);
+  color: #fff;
+}
+
+.btn-red {
+  background: red;
   color: #fff;
 }
 

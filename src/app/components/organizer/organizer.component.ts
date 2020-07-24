@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {DateService} from '../shared/date.service';
+import {DateService} from '../../shared/date.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TasksService} from '../shared/tasks.service';
-import {Task} from '../shared/tasks.service';
+import {TasksService} from '../../shared/tasks.service';
+import {Task} from '../../shared/tasks.service';
 import {switchMap} from 'rxjs/operators';
+import {ModalComponent} from '../modal/modal.component';
 
 @Component({
   selector: 'app-organizer',

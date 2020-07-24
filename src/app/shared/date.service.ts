@@ -16,7 +16,6 @@ export class DateService {
       date: date.date(),
       month: date.month()
     });
-    console.log(value);
     this.date.next(value);
   }
 }
