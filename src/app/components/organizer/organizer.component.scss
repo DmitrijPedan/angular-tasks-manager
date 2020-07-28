@@ -38,3 +38,18 @@ footer {
     margin-bottom: 15px;
   }
 }
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  input {
+    width: 20px;
+    height: 20px;
+    margin: 0 20px 0 0 ;
+  }
+}
+
+.done {
+  text-decoration: line-through;
+}

@@ -8,14 +8,22 @@ import { AuthService } from '../../shared/auth.service';
 })
 export class ModalComponent {
   @Output() switchModalVisible = new EventEmitter();
+  @Output() login = new EventEmitter<any>();
   newUser = false;
-  email: '';
-  password: '';
+  user = {
+    email: '',
+    password: '',
+    displayName: ''
+  };
   constructor(
-    public auth: AuthService
+    public authService: AuthService
   ) { }
   submit(): void {
-    this.auth.login(this.email, this.password);
+    this.login.emit(this.user);
     this.switchModalVisible.emit();
+  }
+  addNewUser(): void {
+    console.log(this.user);
+    this.authService.create(this.user);
   }
 }

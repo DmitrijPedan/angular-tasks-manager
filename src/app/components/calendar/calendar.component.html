@@ -18,7 +18,7 @@
         [class.weekday]="i<5"
         [class.saturday]="i==5"
         [class.sunday]="i==6"
-        [class.bold]="day.hasTasks"
+        [class.tasks]="day.hasTasks"
         [class.disabled]="day.disabled"
         (click)="select(day.value)"
       >

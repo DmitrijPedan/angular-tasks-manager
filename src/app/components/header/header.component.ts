@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/auth.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { AuthService } from '../../shared/auth.service';
 })
 export class HeaderComponent implements OnInit {
   @Output() switchModalVisible = new EventEmitter();
-  isAuth: any;
-  user: any;
+  @Output() logout = new EventEmitter();
+  @Input() isAuthorized: boolean;
+  user = null;
   constructor(
-    public auth: AuthService
+    public authService: AuthService
   ) {  }
-  ngOnInit(): void{
-    this.auth.isAuth$.subscribe(value => this.isAuth = value);
-    this.auth.user$.subscribe(value => this.user = value);
-  }
+  ngOnInit(): void{ }
 }

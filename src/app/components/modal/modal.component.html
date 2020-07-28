@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="modal">
     <header>
-      <p>{{ newUser ? 'Registration' : 'Log In' }} <span style="color: red; font-size: 14px">{{ this.auth.error }}</span></p>
+      <p>{{ newUser ? 'Registration' : 'Log In' }} <span style="color: red; font-size: 14px">error</span></p>
       <button class="btn btn-red" (click)="switchModalVisible.emit()">x</button>
     </header>
     <main>
@@ -10,33 +10,44 @@
 
         <div class="form-item" *ngIf="newUser" minlength="5">
           <label>Name:
-            <input name="name" placeholder="your name" required>
+            <input name="name" placeholder="your name" [(ngModel)]="user.displayName" required>
           </label>
         </div>
 
         <div class="form-item">
           <label>Email:
-            <input name="email" placeholder="your email" [(ngModel)]="email" required>
+            <input name="email" placeholder="your email" [(ngModel)]="user.email" required>
           </label>
         </div>
 
         <div class="form-item">
           <label>Password:
-            <input name="password" type="password" [(ngModel)]="password" placeholder="your password" required minlength="6">
+            <input name="password" type="password" [(ngModel)]="user.password" placeholder="your password" required minlength="6">
           </label>
         </div>
 
         <div class="form-item">
-          <span class="form-mode" (click)="this.newUser = !this.newUser"> {{ !newUser ? 'Зарегистрироватся' : 'Уже зарегистрирован' }} </span>
-        </div>
-
-        <div class="form-item">
-          <button
+          <button *ngIf="!newUser"
             (click)="submit()"
             [disabled]="userForm.invalid"
             class="btn btn-primary"
-          >submit
+          >Войти
           </button>
+
+          <button *ngIf="newUser"
+            (click)="addNewUser()"
+            [disabled]="userForm.invalid"
+            class="btn btn-primary"
+          >Зарегистрировать
+          </button>
+
+        </div>
+
+        <div class="form-item">
+          <span class="form-mode" (click)="this.newUser = !this.newUser"> {{
+            !newUser
+              ? 'Зарегистрировать нового пользователя'
+              : 'Уже зарегистрирован, войти' }} </span>
         </div>
 
       </form>

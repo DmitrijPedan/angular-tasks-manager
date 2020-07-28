@@ -7,11 +7,19 @@
   <main>
     <ul *ngIf="tasks.length; else noTasks">
       <li class="task" *ngFor="let task of tasks; let i = index">
-        <span>
-          <strong>{{ i + 1 }}</strong>
-          {{task.title}}
-        </span>
-        <button class="btn btn-primary" (click)="remove(task)">Удалить</button>
+        <div>
+          <p><strong>{{ i + 1 }}</strong> <span class="{{ task.isDone ? 'done' : '' }}" >{{ task.title }}</span></p>
+        </div>
+        <div class="controls">
+          <input type="checkbox" title="Отметка о выполнении"
+             [checked]="task.isDone"
+             [disabled]="disabled"
+             (change)="done(task)">
+          <button class="btn btn-primary btn-red" title="Удалить задачу"
+             [disabled]="disabled"
+             (click)="remove(task)"
+          >x</button>
+        </div>
       </li>
     </ul>
     <ng-template #noTasks>
