@@ -1,7 +1,9 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import {DateService} from '../../shared/date.service';
-import {Task, Week} from '../../shared/interfaces/interfaces';
+
+import { DateService } from '../../shared/services/date.service';
+import { TasksService } from '../../shared/services/tasks.service';
+import { Week } from '../../shared/interfaces/interfaces';
 
 moment.locale('ru');
 
@@ -12,22 +14,26 @@ moment.locale('ru');
 })
 
 export class CalendarComponent implements OnInit {
-  @Input() allTasks: Task[];
   calendar: Week[];
-
+  tasks = [];
+  dates = [];
   constructor(
-    private dateService: DateService
+    private dateService: DateService,
+    public tasksService: TasksService
   ) { }
   ngOnInit(): void {
-    this.dateService.date.subscribe(this.generate.bind(this));
+    this.dateService.date$.subscribe(this.generate.bind(this));
+    this.tasksService.tasks$.subscribe(value => {
+      this.tasks = value;
+      this.dates = Object.keys(value).map(el => ({date: el, tasks: Object.values(value[el]).length}));
+      this.generate(this.dateService.date$.value);
+    });
   }
   generate(now: moment.Moment): void {
     const startDay = now.clone().startOf('month').startOf('week');
     const endDay = now.clone().endOf('month').endOf('week');
     const date = startDay.clone().subtract(1, 'day');
     const calendar = [];
-    const tasks = Array.from(new Set(Object.keys(this.allTasks)));
-    console.log(tasks);
     while (date.isBefore(endDay, 'day')) {
       calendar.push({
         days: Array(7).fill(0).map(() => {
@@ -35,7 +41,8 @@ export class CalendarComponent implements OnInit {
           const active = moment().isSame(value, 'date');
           const disabled = !now.isSame(value, 'month');
           const selected = now.isSame(value, 'date');
-          const hasTasks = Boolean(tasks.find(el => el === value.format('DD-MM-YYYY')));
+          const currentDate = this.dates.find(el => el.date === value.format('DD-MM-YYYY'));
+          const hasTasks = currentDate ? currentDate.tasks : 0;
           return {
             value, active, disabled, selected, hasTasks
           };

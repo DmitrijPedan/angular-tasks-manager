@@ -1,11 +1,12 @@
 <div class="header">
   <div class="container">
     <div>
-<!--      <p >{{user.email}}</p>-->
+      <p >{{name}}</p>
+      <p >{{email}}</p>
     </div>
     <div>
-      <button *ngIf="!isAuthorized" class="btn btn-primary" (click)="switchModalVisible.emit()">LogIn</button>
-      <button *ngIf="isAuthorized" class="btn btn-primary" (click)="logout.emit()" >LogOut</button>
+      <button *ngIf="!auth" class="btn btn-primary" (click)="this.authService.showAuth()">LogIn</button>
+      <button *ngIf="auth" class="btn btn-primary" (click)="this.authService.logout()">LogOut</button>
     </div>
   </div>
 </div>

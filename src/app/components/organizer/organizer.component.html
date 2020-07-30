@@ -1,12 +1,15 @@
 <section>
   <header>
-   Список задач на <strong>{{ this.dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
+    <strong class="header-date">{{ this.dateService.date$ | async | moment: 'DD.MM.YYYY'}}</strong>
+    <span class="header-tasks" *ngIf="dayTasks.length">
+      Всего задач: <strong>{{dayTasks.length}}</strong>  (выполненных - <strong> {{ dayTasks | comleted }}</strong>)
+    </span>
     <hr/>
   </header>
 
   <main>
-    <ul *ngIf="tasks.length; else noTasks">
-      <li class="task" *ngFor="let task of tasks; let i = index">
+    <ul *ngIf="dayTasks.length; else noTasks">
+      <li class="task" *ngFor="let task of dayTasks; let i = index">
         <div>
           <p><strong>{{ i + 1 }}</strong> <span class="{{ task.isDone ? 'done' : '' }}" >{{ task.title }}</span></p>
         </div>
@@ -30,7 +33,7 @@
   <p>Добавить новую задачу:</p>
   <footer>
     <form
-      (ngSubmit)="submit()"
+      (ngSubmit)="add()"
       [formGroup]="form"
     >
       <label>Новая задача:</label>

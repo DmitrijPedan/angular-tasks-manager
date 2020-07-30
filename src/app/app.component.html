@@ -1,27 +1,14 @@
 <div class="main">
 
-  <app-header
-    [isAuthorized]="isAuthorized"
-    (logout)="logout()"
-    (switchModalVisible)="switchModalVisible()"
-  ></app-header>
+  <app-header></app-header>
 
-  <div class="container" *ngIf="isAuthorized">
+  <div class="container" *ngIf="this.authService.currentUser | async">
     <app-selector></app-selector>
-    <app-calendar
-      [allTasks]="allTasks"
-    ></app-calendar>
-    <app-organizer
-      [user]="user"
-      [tasks]="tasks"
-    ></app-organizer>
+    <app-calendar></app-calendar>
+    <app-organizer></app-organizer>
   </div>
 
-  <app-modal
-    *ngIf="modalVisible"
-    (login)="login($event)"
-    (switchModalVisible)="switchModalVisible()"
-  ></app-modal>
+  <app-modal *ngIf="modalVisible"></app-modal>
 
 </div>
 

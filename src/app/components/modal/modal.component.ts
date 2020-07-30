@@ -1,5 +1,5 @@
-import { Output, Input, Component, EventEmitter, OnInit } from '@angular/core';
-import { AuthService } from '../../shared/auth.service';
+import { Component } from '@angular/core';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-modal',
@@ -7,8 +7,6 @@ import { AuthService } from '../../shared/auth.service';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-  @Output() switchModalVisible = new EventEmitter();
-  @Output() login = new EventEmitter<any>();
   newUser = false;
   user = {
     email: '',
@@ -19,8 +17,7 @@ export class ModalComponent {
     public authService: AuthService
   ) { }
   submit(): void {
-    this.login.emit(this.user);
-    this.switchModalVisible.emit();
+    this.authService.login(this.user);
   }
   addNewUser(): void {
     console.log(this.user);

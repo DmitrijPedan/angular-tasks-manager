@@ -7,16 +7,16 @@ import {BehaviorSubject} from 'rxjs';
 })
 
 export class DateService {
-  public date: BehaviorSubject<moment.Moment> = new BehaviorSubject(moment());
+  public date$: BehaviorSubject<moment.Moment> = new BehaviorSubject(moment());
   changeMonth(dir: number): void {
-    const value = this.date.value.add(dir, 'months');
-    this.date.next(value);
+    const value = this.date$.value.add(dir, 'months');
+    this.date$.next(value);
   }
   changeDate(date: moment.Moment): void {
-    const value = this.date.value.set({
+    const value = this.date$.value.set({
       date: date.date(),
       month: date.month()
     });
-    this.date.next(value);
+    this.date$.next(value);
   }
 }

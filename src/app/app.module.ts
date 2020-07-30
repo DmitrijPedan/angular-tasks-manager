@@ -5,11 +5,12 @@ import { AppComponent } from './app.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
-import {MomentPipe} from './shared/moment.pipe';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { ModalComponent } from './components/modal/modal.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MomentPipe } from './shared/pipes/moment.pipe';
+import { CompletedPipe } from './shared/pipes/comleted.pipe';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HeaderComponent } from './components/header/header.component';
     SelectorComponent,
     OrganizerComponent,
     MomentPipe,
+    CompletedPipe,
     ModalComponent,
     HeaderComponent,
   ],

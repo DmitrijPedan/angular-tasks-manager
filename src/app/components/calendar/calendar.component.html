@@ -18,16 +18,12 @@
         [class.weekday]="i<5"
         [class.saturday]="i==5"
         [class.sunday]="i==6"
-        [class.tasks]="day.hasTasks"
         [class.disabled]="day.disabled"
+        [class.selected]="day.selected"
         (click)="select(day.value)"
       >
-      <span
-        [class.selected]="day.selected"
-        [class.active]="day.active"
-      >
-        {{ day.value | moment: 'DD' }}
-      </span>
+      <span [class.active]="day.active">{{ day.value | moment: 'DD' }}</span>
+      <span *ngIf="day.hasTasks > 0" class="counter">{{day.hasTasks}}</span>
 
       </td>
     </tr>

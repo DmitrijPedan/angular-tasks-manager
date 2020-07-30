@@ -2,7 +2,7 @@
   <div class="modal">
     <header>
       <p>{{ newUser ? 'Registration' : 'Log In' }} <span style="color: red; font-size: 14px">error</span></p>
-      <button class="btn btn-red" (click)="switchModalVisible.emit()">x</button>
+      <button class="btn btn-red" (click)="authService.closeAuth()">x</button>
     </header>
     <main>
 

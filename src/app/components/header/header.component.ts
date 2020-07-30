@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { AuthService } from '../../shared/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,12 +7,23 @@ import { AuthService } from '../../shared/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  @Output() switchModalVisible = new EventEmitter();
-  @Output() logout = new EventEmitter();
-  @Input() isAuthorized: boolean;
-  user = null;
+  public auth = false;
+  public name = '';
+  public email = '';
   constructor(
     public authService: AuthService
   ) {  }
-  ngOnInit(): void{ }
+  ngOnInit(): void{
+    this.authService.currentUser.subscribe(user => {
+      if (user) {
+        this.auth = true;
+        this.name = user.displayName;
+        this.email = user.email;
+      } else {
+        this.auth = false;
+        this.name = '';
+        this.email = '';
+      }
+    });
+  }
 }

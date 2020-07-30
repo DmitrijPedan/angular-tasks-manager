@@ -14,6 +14,7 @@ table {
     padding: 0.5rem 1rem;
   }
   td {
+    position: relative;
     text-align: center;
     transition: all .2s;
     //background-color: white;
@@ -28,8 +29,8 @@ table {
       color:var(--primary-color);
       font-weight: bold;
     }
-    .selected {
-      color: cornflowerblue;
+    &.selected {
+      background-color: #d8f6af;
     }
   }
 }
@@ -46,7 +47,18 @@ table {
   background-color: #fdb3b3;
 }
 
-.tasks {
-  color: red!important;
+.counter {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  color: black;
+  background-color: #7fccfa;
 }
 
