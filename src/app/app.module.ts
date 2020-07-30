@@ -7,10 +7,11 @@ import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ModalComponent } from './components/modal/modal.component';
+import { AuthComponent } from './components/auth/auth.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MomentPipe } from './shared/pipes/moment.pipe';
 import { CompletedPipe } from './shared/pipes/comleted.pipe';
+import { ErrorPipe } from './shared/pipes/errors.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CompletedPipe } from './shared/pipes/comleted.pipe';
     OrganizerComponent,
     MomentPipe,
     CompletedPipe,
-    ModalComponent,
+    ErrorPipe,
+    AuthComponent,
     HeaderComponent,
   ],
   imports: [

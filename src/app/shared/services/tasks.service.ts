@@ -49,7 +49,7 @@ export class TasksService {
   }
   getDayTasks(date: moment.Moment, tasks): any {
     const formatDate = date.format('DD-MM-YYYY');
-    if (tasks.hasOwnProperty(formatDate)) {
+    if (tasks && tasks.hasOwnProperty(formatDate)) {
      return Object.values(tasks[formatDate]);
     } else {
      return [];

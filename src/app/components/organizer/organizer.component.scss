@@ -8,6 +8,9 @@ header {
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .task {
@@ -60,4 +63,17 @@ footer {
 
 .header-tasks {
   margin-left: 30px;
+}
+
+.header-go {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  input {
+    font-size: 1rem;
+    border-radius: 5px;
+    width: initial;
+    margin-bottom: 0;
+    margin-right: 25px;
+  }
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 import { DateService } from '../../shared/services/date.service';
 import { TasksService } from '../../shared/services/tasks.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { Task } from '../../shared/interfaces/interfaces';
+
 
 @Component({
   selector: 'app-organizer',
@@ -71,5 +73,12 @@ export class OrganizerComponent implements OnInit {
       this.disabled = false;
       console.error('organizer!!! remove(): ', error);
     });
+  }
+  goToDate(event): void {
+    const date = (moment(new Date(event.target.value)));
+    this.dateService.date$.next(date);
+  }
+  goToday(): void {
+    this.dateService.date$.next(moment());
   }
 }

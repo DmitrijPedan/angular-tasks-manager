@@ -11,6 +11,8 @@ export class CompletedPipe  implements PipeTransform {
     if (array.length > 0) {
       return array.filter(el => el.isDone === true).length;
     }
-    else return 0;
+    else {
+      return 0;
+    }
   }
 }

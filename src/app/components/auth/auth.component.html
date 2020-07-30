@@ -1,16 +1,18 @@
 <div class="wrapper">
   <div class="modal">
+
     <header>
       <p>
         {{ newUser ? 'Регистрация' : 'Вход' }}
       </p>
       <button class="btn btn-red" (click)="authService.closeAuth()">x</button>
     </header>
-    <main>
 
+    <main>
       <form #userForm='ngForm'>
         <span style="color: red">{{authService.error | async | error }}</span>
-        <div class="form-item" *ngIf="newUser" minlength="5">
+
+        <div class="form-item" *ngIf="newUser" required minlength="5">
           <label>Ваше имя:
             <input name="name" placeholder="Ваше имя" [(ngModel)]="user.displayName" required>
           </label>
@@ -27,6 +29,7 @@
             <input name="password" type="password" [(ngModel)]="user.password" placeholder="пароль" required minlength="6">
           </label>
         </div>
+
         <div class="form-item" *ngIf="newUser">
           <label>Подтвердите пароль:
             <input name="password" type="password" [(ngModel)]="user.confirmPass" placeholder="подтверждение пароля" required minlength="6">
@@ -58,7 +61,7 @@
         </div>
 
       </form>
-
     </main>
+
   </div>
 </div>

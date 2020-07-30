@@ -19,18 +19,11 @@ export class AuthService {
     private tasksService: TasksService
   ) { }
   create(user: any): any {
-    this.http.post(`${SIGN_UP_URL}?key=${environment.firebase.apiKey}`, {
+    return this.http.post(`${SIGN_UP_URL}?key=${environment.firebase.apiKey}`, {
       email: user.email,
       password: user.password,
       displayName: user.displayName,
-      returnSecureToken: true})
-      .subscribe(result => {
-        this.currentUser.next(result);
-        this.closeAuth();
-        console.log('Create new user current User: ', this.currentUser);
-      }, error => {
-        console.log('Create new user: ', error);
-      });
+      returnSecureToken: true});
   }
   login(user): void{
     this.http.post(`${SIGN_IN_URL}?key=${environment.firebase.apiKey}`, {
@@ -42,10 +35,10 @@ export class AuthService {
         this.currentUser.next(response);
         this.setUserToLocalStorage(response);
         this.tasksService.getTasks(response);
+        this.error.next(null);
         this.closeAuth();
       }, error => {
-        this.error.next(error);
-        console.error('AuthService => login(): ', error);
+        this.error.next(error.error.error.message);
       });
   }
   logout(): void {
@@ -62,8 +55,10 @@ export class AuthService {
         this.tasksService.getTasks(savedUser);
       }, error => {
         console.error('AuthService => checkAuth(): ', error);
+        this.error.next(error.error.error.message);
         this.currentUser.next(null);
         this.tasksService.tasks$.next([]);
+        this.showAuth();
       });
     } else {
       this.showAuth();

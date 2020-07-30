@@ -24,9 +24,11 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.dateService.date$.subscribe(this.generate.bind(this));
     this.tasksService.tasks$.subscribe(value => {
-      this.tasks = value;
-      this.dates = Object.keys(value).map(el => ({date: el, tasks: Object.values(value[el]).length}));
-      this.generate(this.dateService.date$.value);
+      if (value) {
+        this.tasks = value;
+        this.dates = Object.keys(value).map(el => ({date: el, tasks: Object.values(value[el]).length}));
+        this.generate(this.dateService.date$.value);
+      }
     });
   }
   generate(now: moment.Moment): void {
