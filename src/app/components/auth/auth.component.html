@@ -1,41 +1,48 @@
 <div class="wrapper">
   <div class="modal">
     <header>
-      <p>{{ newUser ? 'Registration' : 'Log In' }} <span style="color: red; font-size: 14px">error</span></p>
+      <p>
+        {{ newUser ? 'Регистрация' : 'Вход' }}
+      </p>
       <button class="btn btn-red" (click)="authService.closeAuth()">x</button>
     </header>
     <main>
 
       <form #userForm='ngForm'>
-
+        <span style="color: red">{{authService.error | async | error }}</span>
         <div class="form-item" *ngIf="newUser" minlength="5">
-          <label>Name:
-            <input name="name" placeholder="your name" [(ngModel)]="user.displayName" required>
+          <label>Ваше имя:
+            <input name="name" placeholder="Ваше имя" [(ngModel)]="user.displayName" required>
           </label>
         </div>
 
         <div class="form-item">
-          <label>Email:
-            <input name="email" placeholder="your email" [(ngModel)]="user.email" required>
+          <label>Ваш email:
+            <input name="email" placeholder="Ваш email" [(ngModel)]="user.email" required>
           </label>
         </div>
 
         <div class="form-item">
-          <label>Password:
-            <input name="password" type="password" [(ngModel)]="user.password" placeholder="your password" required minlength="6">
+          <label>Пароль:
+            <input name="password" type="password" [(ngModel)]="user.password" placeholder="пароль" required minlength="6">
+          </label>
+        </div>
+        <div class="form-item" *ngIf="newUser">
+          <label>Подтвердите пароль:
+            <input name="password" type="password" [(ngModel)]="user.confirmPass" placeholder="подтверждение пароля" required minlength="6">
           </label>
         </div>
 
         <div class="form-item">
           <button *ngIf="!newUser"
-            (click)="submit()"
+            (click)="signIn()"
             [disabled]="userForm.invalid"
             class="btn btn-primary"
           >Войти
           </button>
 
           <button *ngIf="newUser"
-            (click)="addNewUser()"
+            (click)="signUp()"
             [disabled]="userForm.invalid"
             class="btn btn-primary"
           >Зарегистрировать
@@ -44,7 +51,7 @@
         </div>
 
         <div class="form-item">
-          <span class="form-mode" (click)="this.newUser = !this.newUser"> {{
+          <span class="form-mode" (click)="changeMode()"> {{
             !newUser
               ? 'Зарегистрировать нового пользователя'
               : 'Уже зарегистрирован, войти' }} </span>
