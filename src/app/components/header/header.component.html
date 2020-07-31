@@ -5,8 +5,19 @@
       <p >{{email}}</p>
     </div>
     <div>
-      <button *ngIf="!auth" class="btn btn-primary" (click)="this.authService.showAuth()">LogIn</button>
-      <button *ngIf="auth" class="btn btn-primary" (click)="this.authService.logout()">LogOut</button>
+
+      <button mat-stroked-button color="primary"
+        *ngIf="!auth"
+        (click)="this.authService.showAuth()"
+      >Вход
+      </button>
+
+      <button mat-stroked-button color="primary"
+        *ngIf="auth"
+        (click)="this.authService.logout()"
+      >Выход
+      </button>
+
     </div>
   </div>
 </div>

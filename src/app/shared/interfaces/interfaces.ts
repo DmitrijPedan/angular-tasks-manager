@@ -2,9 +2,9 @@ import * as moment from 'moment';
 
 export interface Task {
   id?: string;
+  updated: moment.Moment;
   title: string;
-  isDone?: boolean;
-  date?: string;
+  isDone: boolean;
 }
 
 export interface CreateResponse {

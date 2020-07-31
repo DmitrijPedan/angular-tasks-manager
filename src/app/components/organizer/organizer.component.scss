@@ -1,11 +1,11 @@
 section {
   background-color: #e7eef5;
-  border-radius: 10px;
+  //border-radius: 10px;
   padding: 1rem;
 }
 header {
   background-color: white;
-  border-radius: 10px;
+  //border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
   display: flex;
@@ -20,7 +20,7 @@ header {
   padding: .5rem;
   padding-left: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  //border-radius: 8px;
   margin-bottom: .5rem;
   strong {
     margin-right: 1rem;
@@ -28,14 +28,14 @@ header {
 }
 main {
   background-color: white;
-  border-radius: 10px;
+  //border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
 }
 
 footer {
   background-color: white;
-  border-radius: 10px;
+  //border-radius: 10px;
   padding: 1rem;
   input {
     margin-bottom: 15px;
@@ -69,11 +69,18 @@ footer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  input {
-    font-size: 1rem;
-    border-radius: 5px;
-    width: initial;
-    margin-bottom: 0;
-    margin-right: 25px;
+}
+.example-margin {
+  margin-right: 20px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  p {
+    font-size: 1.2rem;
   }
 }
+

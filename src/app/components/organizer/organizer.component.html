@@ -7,29 +7,39 @@
     </span>
     </div>
     <div class="header-go">
-      <input type="date" (change)="goToDate($event)">
-      <button class="btn btn-primary" (click)="goToday()">На сегодня</button>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Выберите дату</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="goToDate($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
   </header>
 
   <main>
-    <ul *ngIf="dayTasks.length; else noTasks">
-      <li class="task" *ngFor="let task of dayTasks; let i = index">
-        <div>
-          <p><strong>{{ i + 1 }}</strong> <span class="{{ task.isDone ? 'done' : '' }}" >{{ task.title }}</span></p>
-        </div>
-        <div class="controls">
-          <input type="checkbox" title="Отметка о выполнении"
-             [checked]="task.isDone"
-             [disabled]="disabled"
-             (change)="done(task)">
-          <button class="btn btn-primary btn-red" title="Удалить задачу"
-             [disabled]="disabled"
-             (click)="remove(task)"
-          >x</button>
-        </div>
-      </li>
-    </ul>
+    <div class="list-header">
+      <p>Заметки</p>
+      <div>
+        <button mat-mini-fab color="warn"
+          [disabled]="selectedTasks.length < 1" (click)="remove()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-selection-list *ngIf="dayTasks.length; else noTasks">
+      <mat-list-option *ngFor="let task of dayTasks; let i = index" (click)="selectTask(task)" color="primary">
+        <mat-icon mat-list-icon color="primary">note</mat-icon>
+        <div mat-line>{{task.title}}</div>
+        <div mat-line><p style="font-size: .7rem">создана: {{task.updated | moment: 'DD-MM-YYYY (HH:mm)'}}</p></div>
+
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-divider></mat-divider>
+    <h4 mat-subheader>Выбрано заметок: {{selectedTasks.length}}</h4>
+
     <ng-template #noTasks>
       <p class="text-center">На выбранную дату нет задач ...</p>
     </ng-template>
@@ -52,3 +62,4 @@
   </footer>
 
 </section>
+

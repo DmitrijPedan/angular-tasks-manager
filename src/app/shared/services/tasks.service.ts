@@ -18,7 +18,7 @@ export class TasksService {
   ) { }
   create(task: Task, user: any): Observable<Task> {
     return this.http
-      .post<CreateResponse>(`${DB_URL}/${user.localId}/${task.date}.json/?auth=${user.idToken}`, task)
+      .post<CreateResponse>(`${DB_URL}/${user.localId}/${task.updated.format('DD-MM-YYYY')}.json/?auth=${user.idToken}`, task)
       .pipe(
         map(response => {
           return {
@@ -56,9 +56,11 @@ export class TasksService {
     }
   }
   done(task: Task, user: any): Observable<void> {
-    return this.http.patch<void>(`${DB_URL}/${user.localId}/${task.date}/${task.id}.json?auth=${user.idToken}`, task);
+    return this.http
+      .patch<void>(`${DB_URL}/${user.localId}/${moment(task.updated).format('DD-MM-YYYY')}/${task.id}.json?auth=${user.idToken}`, task);
   }
   remove(task: Task, user: any): Observable<void> {
-    return this.http.delete<void>(`${DB_URL}/${user.localId}/${task.date}/${task.id}.json?auth=${user.idToken}`);
+    return this.http
+      .delete<void>(`${DB_URL}/${user.localId}/${moment(task.updated).format('DD-MM-YYYY')}/${task.id}.json?auth=${user.idToken}`);
   }
 }

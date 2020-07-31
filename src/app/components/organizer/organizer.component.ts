@@ -6,6 +6,7 @@ import { DateService } from '../../shared/services/date.service';
 import { TasksService } from '../../shared/services/tasks.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { Task } from '../../shared/interfaces/interfaces';
+import {forkJoin} from 'rxjs';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { Task } from '../../shared/interfaces/interfaces';
 export class OrganizerComponent implements OnInit {
   allTasks: any = {};
   dayTasks: Task[] = [];
+  selectedTasks: Task[] = [];
   user = null;
   public form: FormGroup;
   public disabled = false;
@@ -41,7 +43,11 @@ export class OrganizerComponent implements OnInit {
   add(): void {
     this.disabled = true;
     const {title} = this.form.value;
-    const task: Task = {title, isDone: false, date: this.dateService.date$.value.format('DD-MM-YYYY')};
+    const task: Task = {
+      title,
+      isDone: false,
+      updated: moment(),
+    };
     this.tasksService.create(task, this.user).subscribe(value => {
       this.disabled = false;
       this.dayTasks.push({...task, id: value.id});
@@ -63,15 +69,18 @@ export class OrganizerComponent implements OnInit {
       this.disabled = false;
     });
   }
-  remove(task: Task): void {
+  remove(): void {
     this.disabled = true;
-    this.tasksService.remove(task, this.user).subscribe(response => {
-      const filtered = this.dayTasks.filter(el => el.id !== task.id);
+    forkJoin(
+      this.selectedTasks.map(el => this.tasksService.remove(el, this.user))
+    ).subscribe(result => {
+      const filtered = this.dayTasks.filter(el => !this.selectedTasks.includes(el));
+      this.selectedTasks = [];
       this.tasksService.tasks$.next({...this.allTasks, [this.dateService.date$.value.format('DD-MM-YYYY')]: filtered});
       this.disabled = false;
     }, error => {
       this.disabled = false;
-      console.error('organizer!!! remove(): ', error);
+      console.log('forkjoin err: ', error);
     });
   }
   goToDate(event): void {
@@ -80,5 +89,12 @@ export class OrganizerComponent implements OnInit {
   }
   goToday(): void {
     this.dateService.date$.next(moment());
+  }
+  selectTask(task: Task): void {
+    if (this.selectedTasks.includes(task)) {
+      this.selectedTasks = this.selectedTasks.filter(el => el !== task);
+    } else {
+      this.selectedTasks.push(task);
+    }
   }
 }
