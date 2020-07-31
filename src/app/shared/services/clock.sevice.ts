@@ -6,7 +6,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 
-export class ClockSevice {
+export class ClockService {
   time$: BehaviorSubject<moment.Moment> = new BehaviorSubject(moment());
   start(): void {
     setInterval(() => {

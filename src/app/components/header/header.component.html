@@ -3,6 +3,7 @@
     <div>
       <p >{{name}}</p>
       <p >{{email}}</p>
+      <p >{{this.clockService.time$ | async | moment: 'HH:mm:ss'}}</p>
     </div>
     <div>
 
