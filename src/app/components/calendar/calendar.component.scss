@@ -22,7 +22,7 @@ table {
       opacity: 0.5;
     }
     &:hover:not(.disabled) {
-      background: #d8f6af;
+      background: #ffb752;
       cursor: pointer;
     }
     .active {
@@ -30,7 +30,7 @@ table {
       font-weight: bold;
     }
     &.selected {
-      background-color: #d8f6af;
+      background-color: #ffb241;
     }
   }
 }

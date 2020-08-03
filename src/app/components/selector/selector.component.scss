@@ -3,7 +3,6 @@
 }
 
 .today {
-  color: #00a9ff;
   font-weight: bold;
   cursor: pointer;
 }
@@ -28,4 +27,9 @@ span {
   align-items: center;
   font-size: 2rem;
   margin: 1rem;
+}
+
+.month {
+  font-size: 1.2rem;
+  font-weight: bold;
 }

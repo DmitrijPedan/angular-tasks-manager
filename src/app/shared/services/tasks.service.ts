@@ -44,12 +44,12 @@ export class TasksService {
   }
   getDayTasks(date: moment.Moment, tasks): any {
     const formatDate = date.format('DD-MM-YYYY');
-    const result = tasks.filter(el => el.date === formatDate);
+    const result = tasks.filter(el => el.date === formatDate).sort((a, b) => a.isDone - b.isDone);
     return result ? result : [];
   }
   done(task: Task, user: any): Observable<void> {
     return this.http
-      .patch<void>(`${DB_URL}/${user.localId}/${moment(task.updated).format('DD-MM-YYYY')}/${task.id}.json?auth=${user.idToken}`, task);
+      .patch<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`, task);
   }
   remove(task: Task, user: any): Observable<void> {
     return this.http

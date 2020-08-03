@@ -1,23 +1,23 @@
 <div class="selector">
   <p>
 
-    <mat-icon  title="Предыдущий месяц" class="button"
+    <mat-icon  title="Предыдущий месяц" class="button" color="primary"
                (click)="goMonth(-1)"
     >first_page</mat-icon>
 
-    <mat-icon title="Предыдущий день" class="button"
+    <mat-icon title="Предыдущий день" class="button" color="primary"
               (click)="goDay(-1)"
     >chevron_left</mat-icon>
 
-    <span>
-    {{ this.dateService.date$ |async |moment: 'YYYY MMMM' }}
-  </span>
+    <span class="month">
+    {{ this.dateService.date$ |async |moment: 'DD MMMM YYYY' }}
+    </span>
 
-    <mat-icon title="Следующий день" class="button"
+    <mat-icon title="Следующий день" class="button" color="primary"
               (click)="goDay(1)"
     >chevron_right</mat-icon>
 
-    <mat-icon title="Следующий месяц" class="button"
+    <mat-icon title="Следующий месяц" class="button" color="primary"
               (click)="goMonth(1)"
     >last_page</mat-icon>
 

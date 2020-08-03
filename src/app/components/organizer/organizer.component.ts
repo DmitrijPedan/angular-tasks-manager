@@ -21,8 +21,8 @@ export class OrganizerComponent implements OnInit {
   dayTasks: Task[] = [];
   selectedTasks: Task[] = [];
   user = null;
-  public form: FormGroup;
-  public disabled = false;
+  disabled = false;
+  form: FormGroup;
   constructor(
     public dateService: DateService,
     public tasksService: TasksService,
@@ -68,13 +68,17 @@ export class OrganizerComponent implements OnInit {
   }
   done(task: Task): void {
     this.disabled = true;
+    this.loaderService.loading$.next(true);
+    this.selectedTasks = [];
     this.tasksService.done({...task, isDone: !task.isDone}, this.user).subscribe(() => {
-      const filtered = this.dayTasks.map(el => el.id === task.id ? {...el, isDone: !el.isDone} : el);
-      this.tasksService.tasks$.next({...this.allTasks, [this.dateService.date$.value.format('DD-MM-YYYY')]: filtered});
+      const filtered = this.allTasks.map(el => el.id === task.id ? {...el, isDone: !el.isDone} : el);
+      this.tasksService.tasks$.next(filtered);
       this.disabled = false;
+      this.loaderService.loading$.next(false);
     }, error => {
       console.error('organizer!!! done(): ', error);
       this.disabled = false;
+      this.loaderService.loading$.next(false);
     });
   }
   remove(): void {
@@ -99,9 +103,6 @@ export class OrganizerComponent implements OnInit {
   goToDate(event): void {
     const date = (moment(new Date(event.target.value)));
     this.dateService.date$.next(date);
-  }
-  goToday(): void {
-    this.dateService.date$.next(moment());
   }
   selectTask(task: Task): void {
     if (this.selectedTasks.includes(task)) {
