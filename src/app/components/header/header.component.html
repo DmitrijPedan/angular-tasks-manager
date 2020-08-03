@@ -1,12 +1,12 @@
 <div class="header">
   <div class="container">
+
     <div>
       <p >{{name}}</p>
       <p >{{email}}</p>
-      <p >{{this.clockService.time$ | async | moment: 'HH:mm:ss'}}</p>
     </div>
-    <div>
 
+    <div class="button">
       <button mat-stroked-button color="primary"
         *ngIf="!auth"
         (click)="this.authService.showAuth()"
@@ -18,8 +18,9 @@
         (click)="this.authService.logout()"
       >Выход
       </button>
-
     </div>
+
   </div>
+  <mat-progress-bar class="progress" mode="indeterminate" *ngIf="loaderService.loading$ | async"></mat-progress-bar>
 </div>
 

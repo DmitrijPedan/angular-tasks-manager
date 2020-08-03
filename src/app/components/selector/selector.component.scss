@@ -1,17 +1,31 @@
-p {
+.selector {
   padding: 15px 10px;
+}
+
+.today {
+  color: #00a9ff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+p {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 0;
 }
 
 span {
-  margin: 0 2rem;
+  margin: 0 1rem;
   text-align: center;
   width: 200px;
 }
 
-i {
+.button {
   cursor: pointer;
-  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  margin: 1rem;
 }

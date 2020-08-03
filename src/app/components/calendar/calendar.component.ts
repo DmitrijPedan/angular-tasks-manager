@@ -16,7 +16,6 @@ moment.locale('ru');
 export class CalendarComponent implements OnInit {
   calendar: Week[];
   tasks = [];
-  dates = [];
   constructor(
     private dateService: DateService,
     public tasksService: TasksService
@@ -26,7 +25,6 @@ export class CalendarComponent implements OnInit {
     this.tasksService.tasks$.subscribe(value => {
       if (value) {
         this.tasks = value;
-        this.dates = Object.keys(value).map(el => ({date: el, tasks: Object.values(value[el]).length}));
         this.generate(this.dateService.date$.value);
       }
     });
@@ -43,8 +41,7 @@ export class CalendarComponent implements OnInit {
           const active = moment().isSame(value, 'date');
           const disabled = !now.isSame(value, 'month');
           const selected = now.isSame(value, 'date');
-          const currentDate = this.dates.find(el => el.date === value.format('DD-MM-YYYY'));
-          const hasTasks = currentDate ? currentDate.tasks : 0;
+          const hasTasks = this.tasks.filter(task => task.date === value.format('DD-MM-YYYY')).length;
           return {
             value, active, disabled, selected, hasTasks
           };

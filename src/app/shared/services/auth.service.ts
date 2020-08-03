@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import {DB_URL, SIGN_IN_URL, SIGN_UP_URL} from '../constants/url';
 import { environment } from '../../../environments/environment';
 import {TasksService} from './tasks.service';
+import {LoaderService} from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class AuthService {
   public authWindow: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private http: HttpClient,
-    private tasksService: TasksService
+    private tasksService: TasksService,
+    private loaderService: LoaderService
   ) { }
   create(user: any): any {
     return this.http.post(`${SIGN_UP_URL}?key=${environment.firebase.apiKey}`, {
@@ -26,6 +28,7 @@ export class AuthService {
       returnSecureToken: true});
   }
   login(user): void{
+    this.loaderService.loading$.next(true);
     this.http.post(`${SIGN_IN_URL}?key=${environment.firebase.apiKey}`, {
       email: user.email,
       password: user.password,
@@ -37,8 +40,10 @@ export class AuthService {
         this.tasksService.getTasks(response);
         this.error.next(null);
         this.closeAuth();
+        this.loaderService.loading$.next(false);
       }, error => {
         this.error.next(error.error.error.message);
+        this.loaderService.loading$.next(false);
       });
   }
   logout(): void {
@@ -50,15 +55,18 @@ export class AuthService {
   checkAuth(): void {
     const savedUser = JSON.parse(localStorage.getItem('user'));
     if (savedUser) {
+      this.loaderService.loading$.next(true);
       this.http.get(`${DB_URL}/${savedUser.localId}.json?auth=${savedUser.idToken}`).subscribe(response => {
         this.currentUser.next(savedUser);
         this.tasksService.getTasks(savedUser);
+        this.loaderService.loading$.next(false);
       }, error => {
         console.error('AuthService => checkAuth(): ', error);
         this.error.next(error.error.error.message);
         this.currentUser.next(null);
         this.tasksService.tasks$.next([]);
         this.showAuth();
+        this.loaderService.loading$.next(false);
       });
     } else {
       this.showAuth();

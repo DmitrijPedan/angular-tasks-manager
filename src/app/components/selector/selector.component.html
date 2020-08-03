@@ -1,11 +1,35 @@
-<p>
+<div class="selector">
+  <p>
 
-  <i class="fas fa-arrow-left" (click)="go(-1)"></i>
+    <mat-icon  title="Предыдущий месяц" class="button"
+               (click)="goMonth(-1)"
+    >first_page</mat-icon>
 
-  <span>
+    <mat-icon title="Предыдущий день" class="button"
+              (click)="goDay(-1)"
+    >chevron_left</mat-icon>
+
+    <span>
     {{ this.dateService.date$ |async |moment: 'YYYY MMMM' }}
   </span>
 
-  <i class="fas fa-arrow-right" (click)="go(1)"></i>
+    <mat-icon title="Следующий день" class="button"
+              (click)="goDay(1)"
+    >chevron_right</mat-icon>
 
-</p>
+    <mat-icon title="Следующий месяц" class="button"
+              (click)="goMonth(1)"
+    >last_page</mat-icon>
+
+  </p>
+
+  <p class="today" title="На сегодня"
+     (click)="dateService.goToday()"
+  >Сегодня: {{this.clockService.time$ | async | moment: 'DD-MM-YYYY HH:mm:ss'}}</p>
+
+</div>
+
+
+
+
+

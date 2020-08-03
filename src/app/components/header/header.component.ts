@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
-import { ClockService } from '../../shared/services/clock.sevice';
+import { LoaderService } from '../../shared/services/loader.service';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +13,9 @@ export class HeaderComponent implements OnInit {
   public email = '';
   constructor(
     public authService: AuthService,
-    public clockService: ClockService,
-
+    public loaderService: LoaderService
   ) {  }
   ngOnInit(): void{
-    this.clockService.start();
     this.authService.currentUser.subscribe(user => {
       if (user) {
         this.auth = true;

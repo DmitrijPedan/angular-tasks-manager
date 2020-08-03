@@ -22,19 +22,25 @@
     <div class="list-header">
       <p>Заметки</p>
       <div>
-        <button mat-mini-fab color="warn"
+        <button mat-mini-fab color="warn" title="Удалить выбранные" style="margin-right: 1rem"
           [disabled]="selectedTasks.length < 1" (click)="remove()">
           <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" title="Выбрать все"
+          (click)="selectAll()">
+          <mat-icon>select_all</mat-icon>
         </button>
       </div>
     </div>
     <mat-divider></mat-divider>
     <mat-selection-list *ngIf="dayTasks.length; else noTasks">
-      <mat-list-option *ngFor="let task of dayTasks; let i = index" (click)="selectTask(task)" color="primary">
-        <mat-icon mat-list-icon color="primary">note</mat-icon>
+      <mat-list-option *ngFor="let task of dayTasks; let i = index"
+                       (click)="selectTask(task)"
+                       [selected]="selectedTasks.includes(task)"
+                       color="primary">
+        <mat-icon mat-list-icon color="accent">note</mat-icon>
         <div mat-line>{{task.title}}</div>
         <div mat-line><p style="font-size: .7rem">создана: {{task.updated | moment: 'DD-MM-YYYY (HH:mm)'}}</p></div>
-
       </mat-list-option>
     </mat-selection-list>
     <mat-divider></mat-divider>
