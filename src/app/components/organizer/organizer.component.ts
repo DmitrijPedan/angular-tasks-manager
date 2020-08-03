@@ -19,7 +19,6 @@ import { forkJoin } from 'rxjs';
 export class OrganizerComponent implements OnInit {
   allTasks: any = [];
   dayTasks: Task[] = [];
-  selectedTasks: Task[] = [];
   user = null;
   disabled = false;
   form: FormGroup;
@@ -35,7 +34,6 @@ export class OrganizerComponent implements OnInit {
     });
     this.dateService.date$.subscribe(selectedDate => {
       this.dayTasks = this.tasksService.getDayTasks(selectedDate, this.allTasks);
-      this.selectedTasks = [];
     });
     this.tasksService.tasks$.subscribe(tasks => {
       this.allTasks = tasks;
@@ -69,7 +67,6 @@ export class OrganizerComponent implements OnInit {
   done(task: Task): void {
     this.disabled = true;
     this.loaderService.loading$.next(true);
-    this.selectedTasks = [];
     this.tasksService.done({...task, isDone: !task.isDone}, this.user).subscribe(() => {
       const filtered = this.allTasks.map(el => el.id === task.id ? {...el, isDone: !el.isDone} : el);
       this.tasksService.tasks$.next(filtered);
@@ -89,12 +86,14 @@ export class OrganizerComponent implements OnInit {
       forkJoin(
         selected.map(el => this.tasksService.remove(el, this.user))
       ).subscribe(result => {
-        const filtered = this.allTasks.filter(el => selected.find(elem => elem.id === el.id));
+        const filtered = this.allTasks.filter(task => {
+          if (!selected.find(sel => sel.id === task.id)) {
+            return task;
+          }
+        });
         this.tasksService.tasks$.next(filtered);
-        this.selectedTasks = [];
         this.disabled = false;
         this.loaderService.loading$.next(false);
-
       }, error => {
         this.disabled = false;
         console.log('fork join err: ', error);
@@ -108,21 +107,15 @@ export class OrganizerComponent implements OnInit {
   }
   selectTask(task: Task): void {
     this.dayTasks = this.dayTasks.map(el => {
-      return (el.id === task.id) ? {...el, selected: !el.selected} : el;
+      return el.id === task.id ? {...el, selected: !el.selected} : el;
     });
-    console.log(this.dayTasks);
-    // if (this.selectedTasks.includes(task)) {
-    //   this.selectedTasks = this.selectedTasks.filter(el => el !== task);
-    // } else {
-    //   this.selectedTasks.push(task);
-    // }
   }
   selectAll(): void {
-    if (this.selectedTasks.length === this.dayTasks.length) {
-      this.selectedTasks = [];
+    const selected = this.dayTasks.filter(el => el.selected === true);
+    if (selected.length < this.dayTasks.length) {
+      this.dayTasks = this.dayTasks.map(el => ({...el, selected: true}));
     } else {
-      this.selectedTasks = [];
-      this.selectedTasks = [...this.dayTasks];
+      this.dayTasks = this.dayTasks.map(el => ({...el, selected: false}));
     }
   }
 }
