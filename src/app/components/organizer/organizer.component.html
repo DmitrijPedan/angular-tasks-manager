@@ -23,7 +23,7 @@
       <p>Заметки</p>
       <div>
         <button mat-mini-fab color="warn" title="Удалить выбранные" style="margin-right: 1rem"
-          [disabled]="selectedTasks.length < 1 || disabled" (click)="remove()">
+          [disabled]="disabled" (click)="remove()">
           <mat-icon>delete</mat-icon>
         </button>
         <button mat-mini-fab color="primary" title="Выбрать все"
@@ -49,15 +49,15 @@
         <div class="check">
           <mat-checkbox color="warn"
             [disabled]="disabled"
-            [checked]="selectedTasks.includes(task)"
+            [checked]="task.selected"
             (click)="selectTask(task)"
           >Отметить</mat-checkbox>
         </div>
       </div>
     </div>
 
-    <mat-divider></mat-divider>
-    <h4 mat-subheader>Выбрано заметок: {{selectedTasks.length}}</h4>
+<!--    <mat-divider></mat-divider>-->
+<!--    <h4 mat-subheader>Выбрано заметок: {{selectedTasks.length}}</h4>-->
 
     <ng-template #noTasks>
       <p class="text-center">На выбранную дату нет задач ...</p>

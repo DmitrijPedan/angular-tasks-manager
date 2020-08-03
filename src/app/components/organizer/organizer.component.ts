@@ -82,34 +82,40 @@ export class OrganizerComponent implements OnInit {
     });
   }
   remove(): void {
-    this.disabled = true;
-    this.loaderService.loading$.next(true);
-    forkJoin(
-      this.selectedTasks.map(el => this.tasksService.remove(el, this.user))
-    ).subscribe(result => {
-      const filtered = this.allTasks.filter(el => !this.selectedTasks.includes(el));
-      this.tasksService.tasks$.next(filtered);
-      this.selectedTasks = [];
-      this.disabled = false;
-      this.loaderService.loading$.next(false);
+    const selected = this.dayTasks.filter(el => el.selected);
+    if (selected.length) {
+      this.disabled = true;
+      this.loaderService.loading$.next(true);
+      forkJoin(
+        selected.map(el => this.tasksService.remove(el, this.user))
+      ).subscribe(result => {
+        const filtered = this.allTasks.filter(el => selected.find(elem => elem.id === el.id));
+        this.tasksService.tasks$.next(filtered);
+        this.selectedTasks = [];
+        this.disabled = false;
+        this.loaderService.loading$.next(false);
 
-    }, error => {
-      this.disabled = false;
-      console.log('fork join err: ', error);
-      this.loaderService.loading$.next(false);
-
-    });
+      }, error => {
+        this.disabled = false;
+        console.log('fork join err: ', error);
+        this.loaderService.loading$.next(false);
+      });
+    }
   }
   goToDate(event): void {
     const date = (moment(new Date(event.target.value)));
     this.dateService.date$.next(date);
   }
   selectTask(task: Task): void {
-    if (this.selectedTasks.includes(task)) {
-      this.selectedTasks = this.selectedTasks.filter(el => el !== task);
-    } else {
-      this.selectedTasks.push(task);
-    }
+    this.dayTasks = this.dayTasks.map(el => {
+      return (el.id === task.id) ? {...el, selected: !el.selected} : el;
+    });
+    console.log(this.dayTasks);
+    // if (this.selectedTasks.includes(task)) {
+    //   this.selectedTasks = this.selectedTasks.filter(el => el !== task);
+    // } else {
+    //   this.selectedTasks.push(task);
+    // }
   }
   selectAll(): void {
     if (this.selectedTasks.length === this.dayTasks.length) {

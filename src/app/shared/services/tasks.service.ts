@@ -31,7 +31,7 @@ export class TasksService {
     this.loaderService.loading$.next(true);
     this.http.get<Task[]>(`${DB_URL}/${user.localId}/tasks.json?auth=${user.idToken}`).subscribe(tasks => {
       if (tasks) {
-        const result = Object.keys(tasks).map(el => ({...tasks[el], id: el}));
+        const result = Object.keys(tasks).map(el => ({...tasks[el], id: el, selected: false}));
         this.tasks$.next(result);
         this.loaderService.loading$.next(false);
       } else {
