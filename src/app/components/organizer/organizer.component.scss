@@ -1,11 +1,9 @@
 section {
   background-color: #e7eef5;
-  //border-radius: 10px;
   padding: 1rem;
 }
 header {
   background-color: white;
-  //border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
   display: flex;
@@ -14,8 +12,11 @@ header {
 }
 
 .task {
+  border-left: 5px solid #fc2c2c;
+  border-radius: 5px;
   width: 100%;
-  padding: 15px;
+  padding: 5px 15px;
+  margin: 10px 0;
   display: flex;
   align-items: center;
   transition: all .3s;
@@ -29,6 +30,13 @@ header {
     .title {
       transform: translateX(.5rem);
       transition: all .3s;
+    }
+  }
+  .check {
+    transition: all .3s;
+    &:hover{
+      transition: all .3s;
+      transform: scale(1.1);
     }
   }
 }
@@ -65,15 +73,10 @@ header {
   color: red;
 }
 
-.check {
-  transition: all .3s;
-  &:hover{
-    transition: all .3s;
-    transform: scale(1.1);
-  }
-}
+
 
 .disabled {
+  border-left: 5px solid #0f970f;
   .icon {
     color: #767474;
   }
@@ -87,14 +90,12 @@ header {
 
 main {
   background-color: white;
-  //border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
 }
 
 footer {
   background-color: white;
-  //border-radius: 10px;
   padding: 1rem;
   input {
     margin-bottom: 15px;
@@ -138,6 +139,15 @@ footer {
   p {
     font-size: 1.4rem;
     color: #767474;
+  }
+}
+
+.selected {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #767474;
+  span {
+    color: black;
   }
 }
 

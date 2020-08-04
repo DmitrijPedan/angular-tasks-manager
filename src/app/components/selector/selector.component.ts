@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DateService} from '../../shared/services/date.service';
+import { DateService } from '../../shared/services/date.service';
 import { ClockService } from '../../shared/services/clock.sevice';
 
 @Component({

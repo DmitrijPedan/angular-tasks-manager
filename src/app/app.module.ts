@@ -10,10 +10,9 @@ import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ConfirmComponent } from './components/confirm/confirm.component';
 
 import { MomentPipe } from './shared/pipes/moment.pipe';
-import { CompletedPipe } from './shared/pipes/comleted.pipe';
+import { FilterPipe } from './shared/pipes/fiter.pipe';
 import { ErrorPipe } from './shared/pipes/errors.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -26,9 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     OrganizerComponent,
     AuthComponent,
     HeaderComponent,
-    ConfirmComponent,
     MomentPipe,
-    CompletedPipe,
+    FilterPipe,
     ErrorPipe,
   ],
   imports: [
@@ -40,6 +38,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MaterialModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'ru' }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

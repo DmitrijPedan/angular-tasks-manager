@@ -1,63 +1,69 @@
 <section>
-  <header>
-    <div>
-      <strong class="header-date">{{ this.dateService.date$ | async | moment: 'DD.MM.YYYY'}}</strong>
-      <span class="header-tasks" *ngIf="dayTasks.length">
-      Всего задач: <strong>{{dayTasks.length}}</strong>  (выполненных - <strong> {{ dayTasks | comleted }}</strong>)
-    </span>
-    </div>
-    <div class="header-go">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Выберите дату</mat-label>
-        <input matInput [matDatepicker]="picker" (dateChange)="goToDate($event)">
-        <mat-datepicker-toggle matSuffix [for]="picker">
-          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-  </header>
+<!--  <header>-->
+<!--    <div>-->
+<!--      <strong class="header-date">{{ this.dateService.date$ | async | moment: 'DD.MM.YYYY'}}</strong>-->
+<!--    </div>-->
+<!--    <div class="header-go">-->
+<!--      <mat-form-field class="example-full-width" appearance="fill">-->
+<!--        <mat-label>Выберите дату</mat-label>-->
+<!--        <input matInput [matDatepicker]="picker" (dateChange)="goToDate($event)">-->
+<!--        <mat-datepicker-toggle matSuffix [for]="picker">-->
+<!--          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>-->
+<!--        </mat-datepicker-toggle>-->
+<!--        <mat-datepicker #picker></mat-datepicker>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+<!--  </header>-->
 
   <main>
-    <div class="list-header">
-      <p>Заметки</p>
-      <div>
-        <button mat-mini-fab color="warn" title="Удалить выбранные" style="margin-right: 1rem"
-          [disabled]="disabled" (click)="remove()">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" title="Выбрать все"
-          (click)="selectAll()"
-          [disabled]="disabled">
-          <mat-icon>select_all</mat-icon>
-        </button>
+    <div *ngIf="dayTasks.length; else noTasks">
+      <div class="list-header" >
+        <p>Заметки: <span>{{dayTasks.length}}, выполненных: {{ dayTasks | filter: 'isDone': true }}.</span>
+        </p>
+        <div>
+          <button mat-mini-fab color="warn" title="Удалить выбранные" style="margin-right: 1rem"
+                  [disabled]="(dayTasks | filter: 'selected': true) < 1"
+                  (click)="remove()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" title="Выбрать все"
+                  (click)="selectAll()"
+                  [disabled]="disabled">
+            <mat-icon>list</mat-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
 
-    <div class="tasks-box" *ngIf="dayTasks.length; else noTasks">
+      <div class="tasks-box">
 
-      <div *ngFor="let task of dayTasks; let i = index" class="task {{ (task.isDone || disabled ) && 'disabled' }}">
-        <div class="content" (click)="done(task)">
-          <div class="icon"><mat-icon title="Отметить о выполнении">note</mat-icon></div>
-          <div class="details">
-            <p class="title">{{task.title}}</p>
-            <p class="created">создана: {{task.updated | moment: 'DD-MM-YYYY (HH:mm)'}}</p>
-            <p class="done"> {{ task.isDone? 'Выполнено' : 'Не выполнено' }} </p>
+        <div *ngFor="let task of dayTasks; let i = index" class="task {{(task.isDone || disabled ) && 'disabled' }}"
+             (click)="selectTask(task)">
+          <div class="content">
+            <div class="icon"><mat-icon title="Отметить о выполнении">note</mat-icon></div>
+            <div class="details">
+              <p class="title">{{task.title}}</p>
+              <p class="created">создана: {{task.updated | moment: 'DD-MM-YYYY (HH:mm)'}}</p>
+              <p class="done" title="Отметка о выполнении">
+                <button mat-stroked-button color="{{ task.isDone? 'primary' : 'warn' }}"
+                  (click)="done(task)">
+                  {{ task.isDone? 'Снять отметку' : 'Отметить' }}
+                </button>
+                 </p>
+            </div>
+          </div>
+          <div class="check">
+            <mat-checkbox color="warn"
+              [disabled]="disabled"
+              [checked]="task.selected"
+            ></mat-checkbox>
           </div>
         </div>
-        <div class="check">
-          <mat-checkbox color="warn"
-            [disabled]="disabled"
-            [checked]="task.selected"
-            (click)="selectTask(task)"
-          >Отметить</mat-checkbox>
-        </div>
       </div>
-    </div>
 
-<!--    <mat-divider></mat-divider>-->
-<!--    <h4 mat-subheader>Выбрано заметок: {{selectedTasks.length}}</h4>-->
+      <mat-divider></mat-divider>
+      <h4 class="selected" mat-subheader>Выбрано заметок: <span>{{dayTasks | filter: 'selected': true}}</span></h4>
+    </div>
 
     <ng-template #noTasks>
       <p class="text-center">На выбранную дату нет задач ...</p>
@@ -73,8 +79,8 @@
       <label>Новая задача:</label>
       <input type="text" placeholder="Введите описание задачи" formControlName="title">
       <button
+        mat-raised-button color="primary"
         type="submit"
-        class="btn btn-primary btn-block"
         [disabled]="form.invalid"
       >Добавить</button>
     </form>

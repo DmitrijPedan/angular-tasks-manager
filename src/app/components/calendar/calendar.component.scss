@@ -10,41 +10,49 @@ table {
   margin-bottom: 1rem;
   border-collapse: collapse;
   td, th {
-    border: 1px solid #000;
+    border: 3px solid white;
     padding: 0.5rem 1rem;
   }
   td {
     position: relative;
     text-align: center;
     transition: all .2s;
+    opacity: 0.5;
     //background-color: white;
+    .counter {
+      opacity: 1;
+    }
     &.disabled {
-      opacity: 0.5;
+      opacity: 0.2;
     }
     &:hover:not(.disabled) {
-      background: #ffb752;
+      //background: #f5e3cd;
       cursor: pointer;
+      opacity: 1;
+      font-weight: bold;
+      transition: all .2s;
     }
     .active {
       color:var(--primary-color);
       font-weight: bold;
     }
     &.selected {
-      background-color: #ffb241;
+      opacity: 1;
+      font-weight: bold;
     }
   }
 }
 
 .weekday {
-  background-color: white;
+  background-color: #baff91;
 }
 
 .saturday {
-  background-color: #fcdada;
+  background-color: #f58787;
 }
 
 .sunday {
-  background-color: #fdb3b3;
+  background-color: #f35e5e;
 }
 
 .counter {
@@ -58,7 +66,7 @@ table {
   justify-content: center;
   align-items: center;
   font-size: 10px;
-  color: black;
-  background-color: #7fccfa;
+  color: #000000;
+  background-color: #00c9ff;
 }
 

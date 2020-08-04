@@ -16,6 +16,7 @@
     "@angular/common": "~10.0.2",
     "@angular/compiler": "~10.0.2",
     "@angular/core": "~10.0.2",
+    "@angular/elements": "^10.0.7",
     "@angular/forms": "~10.0.2",
     "@angular/localize": "^10.0.4",
     "@angular/material": "^10.1.1",

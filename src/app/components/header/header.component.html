@@ -1,26 +1,35 @@
-<div class="header">
-  <div class="container">
-
+<p class="header">
+  <mat-toolbar color="primary" class="bar">
     <div>
-      <p >{{name}}</p>
-      <p >{{email}}</p>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>add_task</mat-icon>
+          <span>Добавить заметку</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>list</mat-icon>
+          <span>Посмотреть все заметки</span>
+        </button>
+      </mat-menu>
+      <span style="font-size: 1.2rem">{{ name !== '' ? name : email }}</span>
+      <span class="example-spacer"></span>
     </div>
 
     <div class="button">
-      <button mat-stroked-button color="primary"
-        *ngIf="!auth"
-        (click)="this.authService.showAuth()"
-      >Вход
-      </button>
+      <button mat-raised-button color="warn"
+              *ngIf="!auth"
+              (click)="this.authService.showAuth()"
+      >Вход</button>
 
-      <button mat-stroked-button color="primary"
-        *ngIf="auth"
-        (click)="this.authService.logout()"
-      >Выход
-      </button>
+      <button mat-raised-button color="warn"
+              *ngIf="auth"
+              (click)="this.authService.logout()"
+      >Выход</button>
     </div>
-
-  </div>
-  <mat-progress-bar class="progress" mode="indeterminate" *ngIf="loaderService.loading$ | async"></mat-progress-bar>
-</div>
+  </mat-toolbar>
+    <mat-progress-bar class="progress" mode="indeterminate" *ngIf="loaderService.loading$ | async"></mat-progress-bar>
+</p>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { AuthService } from './shared/services/auth.service';
 
 @Component({
@@ -18,4 +18,5 @@ export class AppComponent implements OnInit{
    this.authService.currentUser.subscribe(user => this.user = user);
    this.authService.authWindow.subscribe(value => this.modalVisible = value);
   }
+
 }

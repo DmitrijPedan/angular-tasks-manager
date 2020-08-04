@@ -9,6 +9,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatListModule} from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -20,7 +22,9 @@ import {MatListModule} from '@angular/material/list';
     MatNativeDateModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatToolbarModule,
+    MatMenuModule,
   ],
   exports: [
     MatButtonModule,
@@ -31,7 +35,9 @@ import {MatListModule} from '@angular/material/list';
     MatNativeDateModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatToolbarModule,
+    MatMenuModule,
   ],
   providers: [
     MatDatepickerModule,
