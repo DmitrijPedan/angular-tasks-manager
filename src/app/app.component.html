@@ -3,18 +3,25 @@
   <app-header></app-header>
 
   <div class="container" *ngIf="this.authService.currentUser | async">
-    <app-selector></app-selector>
-    <app-calendar></app-calendar>
-    <app-organizer></app-organizer>
+    <div>
+      <app-selector></app-selector>
+      <app-calendar></app-calendar>
+      <app-organizer></app-organizer>
+    </div>
   </div>
 
-  <div class="add-task-container">
-    <button mat-fab color="warn" title="Добавить заметку">
+  <div class="add-task-container" *ngIf="this.authService.currentUser | async">
+    <button mat-fab color="warn" title="Добавить заметку"
+            (click)="this.taskService.addTaskVisibility$.next(true)">
       <mat-icon>add_task</mat-icon>
     </button>
   </div>
 
-  <app-modal *ngIf="modalVisible"></app-modal>
+  <app-auth *ngIf="this.authService.authWindow | async"></app-auth>
+
+
 
 </div>
+
+
 

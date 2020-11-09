@@ -14,6 +14,8 @@ import {LoaderService} from './loader.service';
 
 export class TasksService {
   public tasks$: BehaviorSubject<any> = new BehaviorSubject([]);
+  public trash$: BehaviorSubject<any> = new BehaviorSubject([]);
+  public addTaskVisibility$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private http: HttpClient,
     private loaderService: LoaderService
@@ -29,13 +31,15 @@ export class TasksService {
   }
   getTasks(user: any): void {
     this.loaderService.loading$.next(true);
-    this.http.get<Task[]>(`${DB_URL}/${user.localId}/tasks.json?auth=${user.idToken}`).subscribe(tasks => {
-      if (tasks) {
-        const result = Object.keys(tasks).map(el => ({...tasks[el], id: el, selected: false}));
-        this.tasks$.next(result);
+    this.http.get<Task[]>(`${DB_URL}/${user.localId}/tasks.json?auth=${user.idToken}`).subscribe(result => {
+      if (result) {
+        const allTasks = Object.keys(result).map(el => ({...result[el], id: el, selected: false}));
+        this.tasks$.next(allTasks.filter(el => el.deleted === false));
+        this.trash$.next(allTasks.filter(el => el.deleted === true));
         this.loaderService.loading$.next(false);
       } else {
         this.tasks$.next(null);
+        this.trash$.next(null);
         this.loaderService.loading$.next(false);
       }
     }, error => {
@@ -48,6 +52,10 @@ export class TasksService {
     return result ? result : [];
   }
   done(task: Task, user: any): Observable<void> {
+    return this.http
+      .patch<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`, task);
+  }
+  trash(task: Task, user: any): Observable<void> {
     return this.http
       .patch<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`, task);
   }

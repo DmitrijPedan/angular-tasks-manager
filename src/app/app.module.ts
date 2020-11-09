@@ -10,12 +10,13 @@ import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ModalWindowComponent } from './components/modal-window/modal-window.component';
 
 import { MomentPipe } from './shared/pipes/moment.pipe';
 import { FilterPipe } from './shared/pipes/fiter.pipe';
 import { ErrorPipe } from './shared/pipes/errors.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MomentPipe,
     FilterPipe,
     ErrorPipe,
+    ConfirmDialogComponent,
+    ModalWindowComponent
   ],
   imports: [
     BrowserModule,

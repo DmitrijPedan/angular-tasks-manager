@@ -1,20 +1,4 @@
 <section>
-<!--  <header>-->
-<!--    <div>-->
-<!--      <strong class="header-date">{{ this.dateService.date$ | async | moment: 'DD.MM.YYYY'}}</strong>-->
-<!--    </div>-->
-<!--    <div class="header-go">-->
-<!--      <mat-form-field class="example-full-width" appearance="fill">-->
-<!--        <mat-label>Выберите дату</mat-label>-->
-<!--        <input matInput [matDatepicker]="picker" (dateChange)="goToDate($event)">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="picker">-->
-<!--          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>-->
-<!--        </mat-datepicker-toggle>-->
-<!--        <mat-datepicker #picker></mat-datepicker>-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
-<!--  </header>-->
-
   <main>
     <div *ngIf="dayTasks.length; else noTasks">
       <div class="list-header" >
@@ -23,7 +7,7 @@
         <div>
           <button mat-mini-fab color="warn" title="Удалить выбранные" style="margin-right: 1rem"
                   [disabled]="(dayTasks | filter: 'selected': true) < 1"
-                  (click)="remove()">
+                  (click)="confirmToTrash()">
             <mat-icon>delete</mat-icon>
           </button>
           <button mat-mini-fab color="primary" title="Выбрать все"
@@ -37,8 +21,7 @@
 
       <div class="tasks-box">
 
-        <div *ngFor="let task of dayTasks; let i = index" class="task {{(task.isDone || disabled ) && 'disabled' }}"
-             (click)="selectTask(task)">
+        <div *ngFor="let task of dayTasks; let i = index" class="task {{(task.isDone || disabled ) && 'disabled' }}">
           <div class="content">
             <div class="icon"><mat-icon title="Отметить о выполнении">note</mat-icon></div>
             <div class="details">
@@ -49,10 +32,10 @@
                   (click)="done(task)">
                   {{ task.isDone? 'Снять отметку' : 'Отметить' }}
                 </button>
-                 </p>
+              </p>
             </div>
           </div>
-          <div class="check">
+          <div class="check" (click)="selectTask(task, this.dayTasks)">
             <mat-checkbox color="warn"
               [disabled]="disabled"
               [checked]="task.selected"
@@ -70,21 +53,107 @@
     </ng-template>
   </main>
 
-  <p>Добавить новую задачу:</p>
-  <footer>
-    <form
-      (ngSubmit)="add()"
-      [formGroup]="form"
-    >
-      <label>Новая задача:</label>
-      <input type="text" placeholder="Введите описание задачи" formControlName="title">
-      <button
-        mat-raised-button color="primary"
-        type="submit"
-        [disabled]="form.invalid"
-      >Добавить</button>
-    </form>
-  </footer>
-
 </section>
 
+<div class="add-task-wrapper" *ngIf="this.tasksService.addTaskVisibility$ | async">
+  <div class="modal">
+
+    <header>
+      <p>Добавить заметку</p>
+      <button class="btn btn-red" (click)="this.tasksService.addTaskVisibility$.next(false)">x</button>
+    </header>
+
+    <main>
+        <div class="date">
+          <div class="header-go">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Дата</mat-label>
+              <input matInput [matDatepicker]="picker" [value]="this.dateService.date$.value.toDate()" (dateChange)="goToDate($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+      <form (ngSubmit)="add()" [formGroup]="form">
+        <label for="taskTitleInput">Новая задача:</label>
+        <input type="text" placeholder="Введите описание задачи" formControlName="title" id="taskTitleInput">
+        <button
+          mat-raised-button color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+        >Добавить</button>
+      </form>
+
+    </main>
+
+  </div>
+</div>
+
+<app-modal-window id="allTasksComponent">
+  <div class="tasks-box">
+
+    <div *ngFor="let task of allTasks; let i = index" class="task {{(task.isDone || disabled ) && 'disabled' }}">
+      <div class="content">
+        <div class="icon"><mat-icon title="Отметить о выполнении">note</mat-icon></div>
+        <div class="details">
+          <p class="title">{{task.title}}</p>
+          <p class="created">создана: {{task.updated | moment: 'DD-MM-YYYY (HH:mm)'}}</p>
+          <p class="done" title="Отметка о выполнении">
+            <button mat-stroked-button color="{{ task.isDone? 'primary' : 'warn' }}"
+                    (click)="done(task)">
+              {{ task.isDone? 'Снять отметку' : 'Отметить' }}
+            </button>
+          </p>
+        </div>
+      </div>
+      <div class="check" (click)="selectTask(task, this.allTasks)">
+        <mat-checkbox color="warn"
+                      [disabled]="disabled"
+                      [checked]="task.selected"
+        ></mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <button mat-raised-button color="warn" (click)="this.modalService.close('allTasksComponent')">Закрыть</button>
+</app-modal-window>
+
+<app-modal-window id="trashComponent">
+  <div>
+    <div class="list-header">
+      <p>Корзина: <span>{{trashList.length}}, выбрано: {{ dayTasks | filter: 'isDone': true }}.</span>
+      </p>
+      <div>
+        <button mat-mini-fab color="warn" title="Удалить выбранные" style="margin-right: 1rem"
+                [disabled]="(dayTasks | filter: 'selected': true) < 1"
+                (click)="confirmRemove()">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" title="Выбрать все"
+                (click)="selectAll()"
+                [disabled]="disabled">
+          <mat-icon>list</mat-icon>
+        </button>
+      </div>
+
+    </div>
+
+    <div *ngFor="let task of trashList; let i = index" class="task">
+      <div class="content">
+        <div class="details">
+          <p class="title">{{task.title}}</p>
+          <p class="created">создана: {{task.updated | moment: 'DD-MM-YYYY (HH:mm)'}}</p>
+        </div>
+      </div>
+      <div class="check" (click)="selectTask(task, this.trashList)">
+        <mat-checkbox color="warn"
+                      [disabled]="disabled"
+                      [checked]="task.selected"
+        ></mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <button mat-raised-button color="warn" (click)="this.modalService.close('trashComponent')">Закрыть</button>
+</app-modal-window>

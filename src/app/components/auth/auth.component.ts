@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })

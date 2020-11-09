@@ -9,6 +9,9 @@ import { LoaderService } from '../../shared/services/loader.service';
 import { Task } from '../../shared/interfaces/interfaces';
 import { forkJoin } from 'rxjs';
 
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import {ModalService} from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-organizer',
@@ -17,16 +20,19 @@ import { forkJoin } from 'rxjs';
 })
 
 export class OrganizerComponent implements OnInit {
-  allTasks: any = [];
-  dayTasks: Task[] = [];
-  user = null;
-  disabled = false;
-  form: FormGroup;
+  public allTasks: any = [];
+  public dayTasks: Task[] = [];
+  public trashList: Task[] = [];
+  public user = null;
+  public disabled = false;
+  public form: FormGroup;
   constructor(
     public dateService: DateService,
     public tasksService: TasksService,
     public authService: AuthService,
-    public loaderService: LoaderService
+    public loaderService: LoaderService,
+    public modalService: ModalService,
+    public dialog: MatDialog
   ) { }
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -38,6 +44,9 @@ export class OrganizerComponent implements OnInit {
     this.tasksService.tasks$.subscribe(tasks => {
       this.allTasks = tasks;
       this.dayTasks = this.tasksService.getDayTasks(this.dateService.date$.value, tasks);
+    });
+    this.tasksService.trash$.subscribe(trashTasks => {
+      this.trashList = trashTasks;
     });
     this.authService.currentUser.subscribe(user => this.user = user);
   }
@@ -51,6 +60,7 @@ export class OrganizerComponent implements OnInit {
       isDone: false,
       selected: false,
       updated: moment(),
+      deleted: false
     };
     this.tasksService.create(task, this.user).subscribe(value => {
       this.disabled = false;
@@ -69,6 +79,7 @@ export class OrganizerComponent implements OnInit {
     this.loaderService.loading$.next(true);
     this.tasksService.done({...task, isDone: !task.isDone}, this.user).subscribe(() => {
       const filtered = this.allTasks.map(el => el.id === task.id ? {...el, isDone: !el.isDone} : el);
+      console.log(filtered);
       this.tasksService.tasks$.next(filtered);
       this.disabled = false;
       this.loaderService.loading$.next(false);
@@ -76,6 +87,49 @@ export class OrganizerComponent implements OnInit {
       console.error('organizer!!! done(): ', error);
       this.disabled = false;
       this.loaderService.loading$.next(false);
+    });
+  }
+  trash(): void {
+    const selected = this.dayTasks.filter(el => el.selected);
+    if (selected.length) {
+      this.disabled = true;
+      this.loaderService.loading$.next(true);
+      forkJoin(
+        selected.map(el => this.tasksService.trash({...el, deleted: true}, this.user))
+      ).subscribe(result => {
+        this.tasksService.getTasks(this.authService.currentUser.value);
+        this.disabled = false;
+        this.loaderService.loading$.next(false);
+      }, error => {
+        this.disabled = false;
+        console.log('fork join err: ', error);
+        this.loaderService.loading$.next(false);
+      });
+    }
+  }
+  confirmToTrash(): void {
+    const dialogData = new ConfirmDialogModel('Подтвердите действие', 'Вы уверены что хотите переместить выбранные заметки в корзину?');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '600px',
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.trash();
+        // this.remove();
+      }
+    });
+  }
+  confirmRemove(): void {
+    const dialogData = new ConfirmDialogModel('Подтвердите действие', 'Вы уверены что хотите навсегда удалить выбранные заметки?');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '600px',
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.remove();
+      }
     });
   }
   remove(): void {
@@ -96,17 +150,18 @@ export class OrganizerComponent implements OnInit {
         this.loaderService.loading$.next(false);
       }, error => {
         this.disabled = false;
-        console.log('fork join err: ', error);
+        console.error('fork join err: ', error);
         this.loaderService.loading$.next(false);
       });
     }
   }
   goToDate(event): void {
+    console.log(event.target.value);
     const date = (moment(new Date(event.target.value)));
     this.dateService.date$.next(date);
   }
-  selectTask(task: Task): void {
-    this.dayTasks = this.dayTasks.map(el => {
+  selectTask(task: Task, array): void {
+    array = array.map(el => {
       return el.id === task.id ? {...el, selected: !el.selected} : el;
     });
   }

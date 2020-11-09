@@ -1,6 +1,6 @@
 section {
   background-color: #e7eef5;
-  //border-radius: 10px;
+  border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
 }
@@ -9,8 +9,13 @@ table {
   width: 100%;
   margin-bottom: 1rem;
   border-collapse: collapse;
+  background-color: white;
+  th.sunday, th.saturday  {
+    background-color: #f44336;
+    color: white;
+  }
   td, th {
-    border: 3px solid white;
+    border: 1px solid #9e9a9a;
     padding: 0.5rem 1rem;
   }
   td {
@@ -44,15 +49,15 @@ table {
 }
 
 .weekday {
-  background-color: #baff91;
+  //background-color: #ff1515;
 }
 
 .saturday {
-  background-color: #f58787;
+  //background-color: #ee5555;
 }
 
 .sunday {
-  background-color: #f35e5e;
+  //background-color: #e32a2a;
 }
 
 .counter {

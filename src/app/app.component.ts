@@ -1,5 +1,6 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './shared/services/auth.service';
+import { TasksService } from './shared/services/tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +10,12 @@ import { AuthService } from './shared/services/auth.service';
 
 export class AppComponent implements OnInit{
   user = null;
-  modalVisible = false;
   constructor(
     public authService: AuthService,
+    public taskService: TasksService,
   ) { }
   ngOnInit(): void {
    this.authService.checkAuth();
    this.authService.currentUser.subscribe(user => this.user = user);
-   this.authService.authWindow.subscribe(value => this.modalVisible = value);
   }
-
 }

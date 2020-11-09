@@ -1,17 +1,24 @@
 <p class="header">
   <mat-toolbar color="primary" class="bar">
     <div>
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <button mat-icon-button
+              *ngIf="this.authService.currentUser | async"
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu" >
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="this.taskService.addTaskVisibility$.next(true)">
           <mat-icon>add_task</mat-icon>
           <span>Добавить заметку</span>
         </button>
-        <button mat-menu-item>
-          <mat-icon>list</mat-icon>
+        <button mat-menu-item (click)="openList('allTasksComponent')">
+          <mat-icon matBadge="{{this.taskService.tasks$.value.length}}" matBadgePosition="after" matBadgeColor="primary">list</mat-icon>
           <span>Посмотреть все заметки</span>
+        </button>
+        <button mat-menu-item (click)="openList('trashComponent')">
+          <mat-icon matBadge="{{this.taskService.trash$.value.length}}" matBadgePosition="after" matBadgeColor="warn">delete</mat-icon>
+          <span>Корзина</span>
         </button>
       </mat-menu>
       <span style="font-size: 1.2rem">{{ name !== '' ? name : email }}</span>
@@ -26,7 +33,7 @@
 
       <button mat-raised-button color="warn"
               *ngIf="auth"
-              (click)="this.authService.logout()"
+              (click)="confirmDialog()"
       >Выход</button>
     </div>
   </mat-toolbar>

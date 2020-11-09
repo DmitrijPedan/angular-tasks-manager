@@ -7,7 +7,7 @@ export interface Task {
   title: string;
   isDone: boolean;
   selected: boolean;
-
+  deleted: boolean;
 }
 
 export interface CreateResponse {

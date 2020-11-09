@@ -48,7 +48,7 @@ header {
 }
 
 .content {
-  cursor: pointer;
+  //cursor: pointer;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -150,4 +150,44 @@ footer {
     color: black;
   }
 }
+
+// add task window
+
+.add-task-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(51, 51, 51, 0.5);
+  form {
+    width: 90%;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .modal {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 50%;
+    margin: 100px auto;
+    background-color: #eeeeee;
+  }
+  .date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+
+
+
 
