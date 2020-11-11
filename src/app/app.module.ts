@@ -10,7 +10,8 @@ import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ModalWindowComponent } from './components/modal-window/modal-window.component';
+import { TrashComponent } from './components/trash/trash.component';
+import { AddTaskComponent } from './components/add-task/add-task.component';
 
 import { MomentPipe } from './shared/pipes/moment.pipe';
 import { FilterPipe } from './shared/pipes/fiter.pipe';
@@ -30,7 +31,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     FilterPipe,
     ErrorPipe,
     ConfirmDialogComponent,
-    ModalWindowComponent
+    TrashComponent,
+    AddTaskComponent,
   ],
   imports: [
     BrowserModule,

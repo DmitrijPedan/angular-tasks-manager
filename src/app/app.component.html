@@ -1,25 +1,45 @@
 <div class="main">
 
-  <app-header></app-header>
+  <!-- header-->
+  <app-header [viewMode]="viewMode" (setViewMode)="setViewMode($event)" ></app-header>
 
-  <div class="container" *ngIf="this.authService.currentUser | async">
-    <div>
-      <app-selector></app-selector>
-      <app-calendar></app-calendar>
-      <app-organizer></app-organizer>
+  <!-- content-->
+  <div *ngIf="this.authService.currentUser | async">
+
+    <!-- container for content-->
+    <div class="container">
+
+      <!-- view mode organizer-->
+      <div *ngIf="this.viewMode === 'calendar'">
+        <app-selector></app-selector>
+        <app-calendar></app-calendar>
+        <app-organizer></app-organizer>
+      </div>
+
+      <!-- view mode list-->
+      <div *ngIf="this.viewMode === 'list'">
+        <h1>Tasks list</h1>
+      </div>
+
     </div>
+
   </div>
 
-  <div class="add-task-container" *ngIf="this.authService.currentUser | async">
-    <button mat-fab color="warn" title="Добавить заметку"
-            (click)="this.taskService.addTaskVisibility$.next(true)">
+  <!-- trash modal window-->
+  <app-trash *ngIf="this.modalService.$showTrash | async" ></app-trash>
+
+  <!-- add task modal window-->
+  <app-add-task *ngIf="this.modalService.$showAddTask | async" ></app-add-task>
+
+  <!-- authorization window-->
+  <app-auth *ngIf="this.authService.authWindow | async"></app-auth>
+
+  <!-- add new task button-->
+  <div class="add-task-container">
+    <button mat-fab color="warn" title="Добавить задачу" (click)="this.modalService.$showAddTask.next(true)">
       <mat-icon>add_task</mat-icon>
     </button>
   </div>
-
-  <app-auth *ngIf="this.authService.authWindow | async"></app-auth>
-
-
 
 </div>
 

@@ -1,77 +1,71 @@
-section {
-  background-color: #e7eef5;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+.calendar {
+
 }
 
 table {
   width: 100%;
+  table-layout: fixed;
   margin-bottom: 1rem;
   border-collapse: collapse;
-  background-color: white;
-  th.sunday, th.saturday  {
-    background-color: #f44336;
-    color: white;
+  color: var(--black-color);
+  background-color: transparent;
+  th {
+    background-color: transparent;
+    font-size: 12px;
+    max-height: 2.5rem;
+    vertical-align: top;
+    padding: 5px;
   }
-  td, th {
-    border: 1px solid #9e9a9a;
-    padding: 0.5rem 1rem;
+  th.sunday, th.saturday  {
+    color: var(--weekday-color);
   }
   td {
-    position: relative;
+    border: 1px solid var(--border-color);
+    height: 5rem;
+    vertical-align: top;
     text-align: center;
     transition: all .2s;
-    opacity: 0.5;
-    //background-color: white;
-    .counter {
-      opacity: 1;
-    }
+    font-size: 12px;
+    overflow: hidden;
+    padding: 5px;
+    cursor: pointer;
     &.disabled {
-      opacity: 0.2;
+      opacity: 0.5;
+      cursor: initial;
     }
     &:hover:not(.disabled) {
-      //background: #f5e3cd;
-      cursor: pointer;
-      opacity: 1;
-      font-weight: bold;
-      transition: all .2s;
+      background-color: rgba(121, 186, 243, 0.25);
+      .calendar-day {
+        color: black;
+      }
     }
     .active {
       color:var(--primary-color);
       font-weight: bold;
     }
     &.selected {
-      opacity: 1;
-      font-weight: bold;
+      color: black;
+      background-color: rgba(121, 186, 243, 0.25);
+      .calendar-day {
+        font-weight: bold;
+      }
     }
   }
 }
 
-.weekday {
-  //background-color: #ff1515;
+.td-content {
+  max-height: 5rem;
+  overflow: hidden;
 }
-
-.saturday {
-  //background-color: #ee5555;
+.day-task {
+  margin-bottom: 2px;
+  max-width: 95%;
+  white-space: nowrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: left;
+  font-weight: normal;
+  background-color: var(--task-color);
+  padding: 2px;
+  border-radius: 2px;
 }
-
-.sunday {
-  //background-color: #e32a2a;
-}
-
-.counter {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  color: #000000;
-  background-color: #00c9ff;
-}
-

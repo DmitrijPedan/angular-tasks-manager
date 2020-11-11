@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { Task, CreateResponse } from '../interfaces/interfaces';
 import { DB_URL } from '../constants/url';
-import {LoaderService} from './loader.service';
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,6 @@ import {LoaderService} from './loader.service';
 export class TasksService {
   public tasks$: BehaviorSubject<any> = new BehaviorSubject([]);
   public trash$: BehaviorSubject<any> = new BehaviorSubject([]);
-  public addTaskVisibility$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private http: HttpClient,
     private loaderService: LoaderService
@@ -38,8 +37,8 @@ export class TasksService {
         this.trash$.next(allTasks.filter(el => el.deleted === true));
         this.loaderService.loading$.next(false);
       } else {
-        this.tasks$.next(null);
-        this.trash$.next(null);
+        this.tasks$.next([]);
+        this.trash$.next([]);
         this.loaderService.loading$.next(false);
       }
     }, error => {
@@ -51,16 +50,10 @@ export class TasksService {
     const result = tasks.filter(el => el.date === formatDate).sort((a, b) => a.isDone - b.isDone);
     return result ? result : [];
   }
-  done(task: Task, user: any): Observable<void> {
-    return this.http
-      .patch<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`, task);
+  delete(task: Task, user: any): Observable<void> {
+    return this.http.delete<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`);
   }
-  trash(task: Task, user: any): Observable<void> {
-    return this.http
-      .patch<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`, task);
-  }
-  remove(task: Task, user: any): Observable<void> {
-    return this.http
-      .delete<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`);
+  patch(task: Task, user: any): Observable<void> {
+    return this.http.patch<void>(`${DB_URL}/${user.localId}/tasks/${task.id}.json?auth=${user.idToken}`, task);
   }
 }

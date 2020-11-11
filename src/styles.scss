@@ -1,9 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --primary-color: #338af5;
+  --primary-color: #3f51b5;
   --dark-color: #767474;
   --light-color: #f4f4f4;
+  --border-color: #b3b3b3;
+  --weekday-color: #ff4d4d;
+  --black-color: #111111;
+  --task-color: rgba(246, 210, 141, 0.84);
+  --selected-task: #e7e7e7;
+}
+
+.app-name {
+  text-transform: uppercase;
+  font-size: 1rem;
 }
 
 * {
@@ -63,48 +73,56 @@ table th {
   background: var(--light-color);
 }
 
-.btn {
-  display: inline-block;
-  background: var(--light-color);
-  color: #333;
-  padding: 0.4rem 1.3rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-right: 0.5rem;
-  transition: opacity 0.2s;
-  outline: none;
-  &:disabled {
-    background: var(--dark-color);
-    color: #fff;
-    cursor: not-allowed;
-  }
-  &:hover:not(:disabled) {
-    opacity: .8;
-  }
-}
-
-.btn-block {
-  display: block;
-  width: 100%;
-}
-
-.btn-primary {
-  background: var(--primary-color);
-  color: #fff;
-}
-
-.btn-red {
-  background: red;
-  color: #fff;
-}
-
-.text-center {
-  text-align: center;
-}
-
 
 //angular-material
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+//modal window
+.modal {
+  &-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(1,1,1, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  &-window {
+    position: fixed;
+    max-height: 80vh;
+    min-width: 80%;
+    @media (max-width: 600px) {
+      min-width: 95%;
+    }
+    //overflow: auto;
+    background-color: var(--light-color);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+  }
+  &-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  &-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  &-content {
+    overflow: auto;
+  }
+  &-footer {
+
+  }
+}

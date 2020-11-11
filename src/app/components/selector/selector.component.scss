@@ -1,35 +1,21 @@
 .selector {
-  padding: 15px 10px;
-}
-
-.today {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-p {
+  padding: 20px 10px;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
-}
-
-span {
-  margin: 0 1rem;
-  text-align: center;
-  width: 200px;
-}
-
-.button {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  margin: 1rem;
-}
-
-.month {
-  font-size: 1.2rem;
-  font-weight: bold;
+  *:not(:last-child) {
+    margin-right: 1.5rem;
+  }
+  &-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  &-month {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 2rem;
 }

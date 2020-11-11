@@ -1,5 +1,6 @@
 export const errors = [
   {eng: 'INVALID_PASSWORD', rus: 'Неверный пароль' },
+  {eng: 'MISSING_PASSWORD', rus: 'Пропущен пароль' },
   {eng: 'EMAIL_NOT_FOUND', rus: 'Пользователь не найден' },
   {eng: 'INVALID_EMAIL', rus: 'Неверная почта' },
   {eng: 'EMAIL_EXISTS', rus: 'Пользователь с такой почтой уже существует' },

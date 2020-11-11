@@ -1,0 +1,83 @@
+.trash-controls {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  & button:not(:last-child)  {
+    margin-right: 2rem;
+  }
+  margin-bottom: 1rem;
+}
+
+.trash-task {
+  width: 100%;
+  margin: 0 .5rem .5rem .5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trash-counter {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.trash-task-title {
+  font-size: 1rem;
+  span {
+    font-size: .7rem;
+    color: var(--border-color);
+  }
+}
+
+.tasks-wrapper {
+
+}
+
+.task {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem .5rem;
+  width: 100%;
+  .material-icons {
+    color: var(--primary-color);
+  }
+  &:hover {
+    background-color: var(--selected-task);
+  }
+}
+
+.name {
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.done {
+  font-size: 12px;
+  color: red;
+  margin-right: 1rem;
+}
+
+.is-done {
+  color: green;
+}
+
+.create {
+  font-size: 12px;
+  color: var(--dark-color);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.selected {
+  background-color: var(--selected-task);
+}
+

@@ -1,42 +1,64 @@
-<p class="header">
+<div class="header">
+
   <mat-toolbar color="primary" class="bar">
-    <div>
-      <button mat-icon-button
-              *ngIf="this.authService.currentUser | async"
-              [matMenuTriggerFor]="menu"
-              aria-label="Example icon-button with a menu" >
+
+    <span class="app-name">Task manager</span>
+
+    <!-- user menu-->
+    <div *ngIf="this.authService.currentUser | async">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" >
         <mat-icon>menu</mat-icon>
       </button>
+
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="this.taskService.addTaskVisibility$.next(true)">
+
+        <!-- add new task-->
+        <button mat-menu-item (click)="this.modalService.$showAddTask.next(true)">
           <mat-icon>add_task</mat-icon>
-          <span>Добавить заметку</span>
+          <span>Добавить задачу</span>
         </button>
-        <button mat-menu-item (click)="openList('allTasksComponent')">
-          <mat-icon matBadge="{{this.taskService.tasks$.value.length}}" matBadgePosition="after" matBadgeColor="primary">list</mat-icon>
-          <span>Посмотреть все заметки</span>
+
+        <!-- calendar mode-->
+        <button *ngIf="viewMode === 'list'" mat-menu-item (click)="changeViewMode('calendar')">
+          <mat-icon>calendar_today</mat-icon>
+          <span>Режим календарь</span>
         </button>
-        <button mat-menu-item (click)="openList('trashComponent')">
-          <mat-icon matBadge="{{this.taskService.trash$.value.length}}" matBadgePosition="after" matBadgeColor="warn">delete</mat-icon>
-          <span>Корзина</span>
+
+        <!-- list mode-->
+        <button *ngIf="viewMode === 'calendar'" mat-menu-item (click)="changeViewMode('list')">
+          <mat-icon>list</mat-icon>
+          <span>Режим список</span>
         </button>
+
+        <!-- trash-->
+        <button mat-menu-item (click)="this.modalService.$showTrash.next(true)" >
+          <mat-icon>delete</mat-icon>
+          <span>Корзина ({{this.taskService.trash$.value.length}})</span>
+        </button>
+
+        <!-- settings-->
+        <button mat-menu-item >
+          <mat-icon>settings</mat-icon>
+          <span>{{ name }}</span>
+        </button>
+
+        <!-- logout-->
+        <button mat-menu-item (click)="confirmLogout()">
+          <mat-icon>lock</mat-icon>
+          <span>Выход</span>
+        </button>
+
       </mat-menu>
-      <span style="font-size: 1.2rem">{{ name !== '' ? name : email }}</span>
-      <span class="example-spacer"></span>
     </div>
 
-    <div class="button">
-      <button mat-raised-button color="warn"
-              *ngIf="!auth"
-              (click)="this.authService.showAuth()"
-      >Вход</button>
+    <!-- login button-->
+    <button mat-icon-button *ngIf="!auth" (click)="this.authService.showAuth()"><mat-icon>login</mat-icon></button>
 
-      <button mat-raised-button color="warn"
-              *ngIf="auth"
-              (click)="confirmDialog()"
-      >Выход</button>
-    </div>
+
+
   </mat-toolbar>
-    <mat-progress-bar class="progress" mode="indeterminate" *ngIf="loaderService.loading$ | async"></mat-progress-bar>
-</p>
+
+  <!-- progress bar-->
+  <mat-progress-bar class="progress" mode="indeterminate" *ngIf="loaderService.loading$ | async"></mat-progress-bar>
+</div>
 

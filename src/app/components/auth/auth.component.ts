@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
+import {ModalService} from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +16,7 @@ export class AuthComponent  {
     confirmPass: ''
   };
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
   ) { }
   signIn(): void {
     this.authService.login(this.user);

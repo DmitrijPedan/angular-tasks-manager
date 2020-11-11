@@ -1,31 +1,21 @@
 <div class="selector">
-  <p>
+<!--    <span class="selector-title">Календарь</span>-->
 
-    <mat-icon  title="Предыдущий месяц" class="button" color="primary"
-               (click)="goMonth(-1)"
-    >first_page</mat-icon>
+    <span class="selector-month">{{ this.dateService.date$ |async |moment: 'MMMM YYYY' }}</span>
 
-    <mat-icon title="Предыдущий день" class="button" color="primary"
-              (click)="goDay(-1)"
-    >chevron_left</mat-icon>
+    <button mat-mini-fab color="basic" (click)="goMonth(-1)">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
 
-    <span class="month">
-    {{ this.dateService.date$ |async |moment: 'DD MMMM YYYY' }}
-    </span>
+    <button mat-mini-fab color="basic" (click)="goMonth(1)">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
 
-    <mat-icon title="Следующий день" class="button" color="primary"
-              (click)="goDay(1)"
-    >chevron_right</mat-icon>
 
-    <mat-icon title="Следующий месяц" class="button" color="primary"
-              (click)="goMonth(1)"
-    >last_page</mat-icon>
 
-  </p>
-
-  <p class="today" title="На сегодня"
-     (click)="dateService.goToday()"
-  >Сегодня: {{this.clockService.time$ | async | moment: 'DD-MM-YYYY HH:mm:ss'}}</p>
+<!--  <p class="today" title="На сегодня"-->
+<!--     (click)="dateService.goToday()"-->
+<!--  >Сегодня: {{this.clockService.time$ | async | moment: 'DD-MM-YYYY HH:mm:ss'}}</p>-->
 
 </div>
 

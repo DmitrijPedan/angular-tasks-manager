@@ -1,4 +1,4 @@
-<section>
+<div class="calendar">
   <table>
     <thead>
     <tr>
@@ -20,15 +20,20 @@
         [class.sunday]="i==6"
         [class.disabled]="day.disabled"
         [class.selected]="day.selected"
-        (click)="select(day.value)"
+        (click)="!day.disabled && select(day.value)"
       >
-      <span [class.active]="day.active">{{ day.value | moment: 'DD' }}</span>
-      <span *ngIf="day.hasTasks > 0" class="counter">{{day.hasTasks}}</span>
-
+        <div class="td-content">
+          <p class="calendar-day" [class.active]="day.active">
+            {{ day.value | moment: 'DD MMM' }}
+          </p>
+          <p class="day-task" *ngFor="let task of day.dayTasks">
+            {{task.title}}
+          </p>
+        </div>
       </td>
     </tr>
     </tbody>
 
   </table>
-</section>
+</div>
 

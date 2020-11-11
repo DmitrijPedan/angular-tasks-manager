@@ -41,9 +41,9 @@ export class CalendarComponent implements OnInit {
           const active = moment().isSame(value, 'date');
           const disabled = !now.isSame(value, 'month');
           const selected = now.isSame(value, 'date');
-          const hasTasks = this.tasks.filter(task => task.date === value.format('DD-MM-YYYY')).length;
+          const dayTasks = this.tasks.filter(task => task.date === value.format('DD-MM-YYYY'));
           return {
-            value, active, disabled, selected, hasTasks
+            value, active, disabled, selected, dayTasks
           };
         })
       });

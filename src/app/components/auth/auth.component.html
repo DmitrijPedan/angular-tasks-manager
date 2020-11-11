@@ -1,67 +1,53 @@
-<div class="wrapper">
-  <div class="modal">
+<div class="modal-background">
+  <div class="modal-window">
+    <div class="modal-header">
+      <span class="modal-title">{{ newUser ? 'Регистрация' : 'Вход' }}</span>
+      <button mat-mini-fab color="basic" title="Закрыть окно"
+              (click)="this.authService.authWindow.next(false);">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
 
-    <header>
-      <p>
-        {{ newUser ? 'Регистрация' : 'Вход' }}
-      </p>
-      <button class="btn btn-red" (click)="authService.closeAuth()">x</button>
-    </header>
+    <div class="modal-content">
 
-    <main>
-      <form #userForm='ngForm'>
-        <span style="color: red">{{authService.error | async | error }}</span>
 
-        <div class="form-item" *ngIf="newUser" required minlength="5">
-          <label>Ваше имя:
-            <input name="name" placeholder="Ваше имя" [(ngModel)]="user.displayName" required>
-          </label>
-        </div>
+        <form #userForm='ngForm' class="register-form">
+          <span style="color: red">{{authService.error | async | error }}</span>
 
-        <div class="form-item">
-          <label>Ваш email:
-            <input name="email" placeholder="Ваш email" [(ngModel)]="user.email" required>
-          </label>
-        </div>
+          <mat-form-field *ngIf="newUser"  class="example-full-width" appearance="outline" required minlength="5">
+            <mat-label>Ваше имя:</mat-label>
+            <input matInput name="name"  placeholder="Ваше имя" [(ngModel)]="user.displayName" >
+          </mat-form-field>
 
-        <div class="form-item">
-          <label>Пароль:
-            <input name="password" type="password" [(ngModel)]="user.password" placeholder="пароль" required minlength="6">
-          </label>
-        </div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Ваш email:</mat-label>
+            <input matInput name="email" placeholder="Ваш email:" [(ngModel)]="user.email" required>
+          </mat-form-field>
 
-        <div class="form-item" *ngIf="newUser">
-          <label>Подтвердите пароль:
-            <input name="password" type="password" [(ngModel)]="user.confirmPass" placeholder="подтверждение пароля" required minlength="6">
-          </label>
-        </div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Пароль:</mat-label>
+            <input matInput name="password" type="password" placeholder="Ваш пароль:" [(ngModel)]="user.password" required minlength="6">
+          </mat-form-field>
 
-        <div class="form-item">
-          <button *ngIf="!newUser"
-            (click)="signIn()"
-            [disabled]="userForm.invalid"
-            class="btn btn-primary"
-          >Войти
-          </button>
+          <mat-form-field *ngIf="newUser" class="example-full-width" appearance="outline">
+            <mat-label>Подтвердите пароль:</mat-label>
+            <input matInput name="password"  type="password" placeholder="Подтвердите пароль" [(ngModel)]="user.confirmPass" required minlength="6">
+          </mat-form-field>
 
-          <button *ngIf="newUser"
-            (click)="signUp()"
-            [disabled]="userForm.invalid"
-            class="btn btn-primary"
-          >Зарегистрировать
-          </button>
+          <div class="form-item">
+            <button *ngIf="!newUser" mat-raised-button (click)="signIn()" [disabled]="userForm.invalid">Войти</button>
+            <button *ngIf="newUser" mat-raised-button  (click)="signUp()" [disabled]="userForm.invalid">Зарегистрировать</button>
+          </div>
 
-        </div>
+          <div class="form-item">
+            <span class="form-mode" (click)="changeMode()"> {{!newUser ? 'Зарегистрировать нового пользователя' : 'Уже зарегистрирован, войти' }} </span>
+          </div>
 
-        <div class="form-item">
-          <span class="form-mode" (click)="changeMode()"> {{
-            !newUser
-              ? 'Зарегистрировать нового пользователя'
-              : 'Уже зарегистрирован, войти' }} </span>
-        </div>
+        </form>
 
-      </form>
-    </main>
 
+    </div>
+
+    <div class="modal-footer"></div>
   </div>
 </div>
