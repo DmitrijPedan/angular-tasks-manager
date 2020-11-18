@@ -1,17 +1,27 @@
 .organizer {
-  background-color: white;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
   &-header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  &-date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 1rem;
+    *:not(:last-child) {
+      margin-right: 1.5rem;
+    }
   }
   &-tasks {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: .8rem;
   }
   &-buttons {
     flex: 1 1 auto;
@@ -21,9 +31,66 @@
     }
   }
   &-selected {
-    font-size: 1rem;
+    display: block;
+    margin-top: 1rem;
+    font-size: .8rem;
     font-weight: bold;
   }
 }
 
+.no-tasks {
+  .no-tasks-text {
+    width: 100%;
+    text-align: center;
+    margin: 1.5rem 0 2rem 0;
+  }
+  div {
+    text-align: center;
+  }
+}
 
+//task
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .5rem 0;
+  margin-bottom: .5rem;
+  background-color: transparent;
+  tr
+  .info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin: 0 .5rem;
+  }
+  .name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-color);
+  }
+  .create {
+    font-size: .8rem;
+    color: var(--dark-color);
+  }
+  .controls {
+    display: flex;
+    flex-wrap: nowrap;
+    button:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+}
+
+.task:hover, .selected {
+  background-color: var(--selected-task);
+  transition: background-color .3s;
+}
+
+.completed {
+  .info * {
+    color: var(--not-active);
+    font-weight: normal;
+  }
+}

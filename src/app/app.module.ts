@@ -6,7 +6,6 @@ import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -23,7 +22,6 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   declarations: [
     AppComponent,
     CalendarComponent,
-    SelectorComponent,
     OrganizerComponent,
     AuthComponent,
     HeaderComponent,

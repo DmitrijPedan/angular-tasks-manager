@@ -11,9 +11,8 @@
 
       <!-- view mode organizer-->
       <div *ngIf="this.viewMode === 'calendar'">
-        <app-selector></app-selector>
         <app-calendar></app-calendar>
-        <app-organizer></app-organizer>
+<!--        <app-organizer></app-organizer>-->
       </div>
 
       <!-- view mode list-->
@@ -35,9 +34,9 @@
   <app-auth *ngIf="this.authService.authWindow | async"></app-auth>
 
   <!-- add new task button-->
-  <div class="add-task-container">
+  <div class="add-task-container" *ngIf="this.authService.currentUser | async">
     <button mat-fab color="warn" title="Добавить задачу" (click)="this.modalService.$showAddTask.next(true)">
-      <mat-icon>add_task</mat-icon>
+      <mat-icon>add</mat-icon>
     </button>
   </div>
 

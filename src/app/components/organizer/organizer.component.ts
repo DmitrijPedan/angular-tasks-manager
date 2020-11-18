@@ -4,11 +4,14 @@ import { DateService } from '../../shared/services/date.service';
 import { TasksService } from '../../shared/services/tasks.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoaderService } from '../../shared/services/loader.service';
+import {ModalService} from '../../shared/services/modal.service';
+
 import { Task } from '../../shared/interfaces/interfaces';
 import { forkJoin } from 'rxjs';
 
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+
 
 
 @Component({
@@ -27,6 +30,7 @@ export class OrganizerComponent implements OnInit {
     public tasksService: TasksService,
     public authService: AuthService,
     public loaderService: LoaderService,
+    public modalService: ModalService,
     public dialog: MatDialog
   ) { }
   ngOnInit(): void {
@@ -39,18 +43,29 @@ export class OrganizerComponent implements OnInit {
     });
     this.authService.currentUser.subscribe(user => this.user = user);
   }
-  checkDone(): void {
-   if (this.selectedTasks.length) {
+  checkDone(task: Task): void {
+    if (task) {
       this.loaderService.loading$.next(true);
-      forkJoin(
-        this.selectedTasks.map(el => this.tasksService.patch({...el, isDone: true, selected: false}, this.user))
-      ).subscribe(result => {
+      this.tasksService.patch({...task, isDone: !task.isDone, selected: false}, this.user).subscribe(res => {
         this.tasksService.getTasks(this.authService.currentUser.value);
         this.loaderService.loading$.next(false);
+        this.selectedTasks = [];
       }, error => {
-        console.log('fork join err: ', error);
-        this.loaderService.loading$.next(false);
+        console.error('error done single task: ', error);
       });
+    } else {
+      if (this.selectedTasks.length) {
+        this.loaderService.loading$.next(true);
+        forkJoin(
+          this.selectedTasks.map(el => this.tasksService.patch({...el, isDone: true, selected: false}, this.user))
+        ).subscribe(result => {
+          this.tasksService.getTasks(this.authService.currentUser.value);
+          this.loaderService.loading$.next(false);
+        }, error => {
+          console.log('fork join err: ', error);
+          this.loaderService.loading$.next(false);
+        });
+      }
     }
   }
   toTrash(): void {
@@ -80,7 +95,6 @@ export class OrganizerComponent implements OnInit {
     });
   }
   selectTask(task: Task): void {
-    console.log(task);
     this.dayTasks.forEach(el => {
       if (el.id === task.id) {
         el.selected = !el.selected;
@@ -97,5 +111,11 @@ export class OrganizerComponent implements OnInit {
       this.allTasks.forEach(el => el.selected = true);
       this.selectedTasks = this.allTasks;
     }
+  }
+  goDay(dir: number): void {
+    this.dateService.changeDay(dir);
+  }
+  editTask(task: Task): void {
+    console.log(task);
   }
 }

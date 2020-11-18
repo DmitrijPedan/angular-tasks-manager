@@ -1,10 +1,19 @@
 <section class="organizer">
 
+    <div class="organizer-date">
+      <button mat-icon-button color="basic" title="Предыдущий день" (click)="goDay(-1)">
+        <mat-icon color="primary">keyboard_arrow_left</mat-icon>
+      </button>
+      <span>{{this.dateService.date$.value | moment: 'DD MMMM'}}</span>
+      <button mat-icon-button color="basic" title="Следующий день" (click)="goDay(1)">
+        <mat-icon color="primary">keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
     <div *ngIf="dayTasks.length; else noTasks">
       <div class="organizer-header" >
-        <span class="organizer-tasks">
-          Всего: <span>{{dayTasks.length}}, выполненных: {{ dayTasks | filter: 'isDone': true }}.</span>
-        </span>
+        <div class="organizer-tasks">
+          <span>Задач: {{dayTasks.length}} , выполненных: {{ dayTasks | filter: 'isDone': true }}.</span>
+        </div>
         <div class="organizer-buttons">
           <!-- select all-->
           <button mat-mini-fab color="primary" title="Выбрать все"
@@ -27,21 +36,46 @@
 
         </div>
       </div>
-      <mat-divider></mat-divider>
 
-      <mat-selection-list>
-        <mat-list-option *ngFor="let task of dayTasks" (click)="selectTask(task)" [selected]="task.selected" color="primary">
-          <p class="task-title">{{ task.title }} <span>({{ task.date }})</span></p>
-        </mat-list-option>
-      </mat-selection-list>
+      <div class="tasks-wrapper">
+        <div class="task {{task.selected && 'selected'}} {{task.isDone && 'completed'}}" *ngFor="let task of dayTasks">
+          <div class="info" (click)="selectTask(task)">
+            <span class="name">{{ task.title }}</span>
+            <span class="create">Создана: {{ task.updated | moment : 'DD-MM-YYYY HH:MM' }}</span>
+          </div>
+          <div class="controls">
+            <button mat-icon-button color="basic"
+                    title="{{task.isDone ? 'Не выполнена' : 'Выполнена'}}"
+                    (click)="checkDone(task)"
+                    [disabled]="this.loaderService.loading$.value">
+              <mat-icon *ngIf="task.isDone" style="color: var(--completed)">done</mat-icon>
+              <mat-icon *ngIf="!task.isDone" style="color: var(--not-completed)">done</mat-icon>
+            </button>
+<!--            <button mat-icon-button color="basic" title="Редактировать" (click)="editTask(task)">-->
+<!--              <mat-icon color="primary">create</mat-icon>-->
+<!--            </button>-->
+            <button mat-icon-button color="basic" title="Выбрать"
+                    (click)="selectTask(task)"
+                    [disabled]="this.loaderService.loading$.value">
+              <mat-icon color="primary">{{task.selected ? 'check_box' : 'check_box_outline_blank'}}</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
 
-
-      <mat-divider></mat-divider>
-      <span class="organizer-selected" mat-subheader>Выбрано:  <span>{{dayTasks | filter: 'selected': true}}</span></span>
+      <span class="organizer-selected" *ngIf="selectedTasks.length > 0">Выбрано:  <span>{{dayTasks | filter: 'selected': true}}</span></span>
     </div>
 
     <ng-template #noTasks>
-      <p class="text-center">На выбранную дату нет задач ...</p>
+      <div class="no-tasks">
+        <p class="no-tasks-text">На выбранную дату нет задач ...</p>
+        <div>
+          <button mat-raised-button color="primary" (click)="this.modalService.$showAddTask.next(true)" >
+            Создать задачу
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
     </ng-template>
 
 

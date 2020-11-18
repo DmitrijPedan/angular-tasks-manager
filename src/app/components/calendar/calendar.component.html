@@ -1,39 +1,61 @@
 <div class="calendar">
-  <table>
-    <thead>
-    <tr>
-      <th class="weekday">Пн</th>
-      <th class="weekday">Вт</th>
-      <th class="weekday">Ср</th>
-      <th class="weekday">Чт</th>
-      <th class="weekday">Пт</th>
-      <th class="saturday">Сб</th>
-      <th class="sunday">Вс</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let week of calendar">
-      <td
-        *ngFor="let day of week.days; let i = index"
-        [class.weekday]="i<5"
-        [class.saturday]="i==5"
-        [class.sunday]="i==6"
-        [class.disabled]="day.disabled"
-        [class.selected]="day.selected"
-        (click)="!day.disabled && select(day.value)"
-      >
-        <div class="td-content">
-          <p class="calendar-day" [class.active]="day.active">
-            {{ day.value | moment: 'DD MMM' }}
-          </p>
-          <p class="day-task" *ngFor="let task of day.dayTasks">
-            {{task.title}}
-          </p>
-        </div>
-      </td>
-    </tr>
-    </tbody>
 
-  </table>
+  <div class="calendar-header">
+
+    <div class="collapse">
+      <button mat-mini-fab color="basic" (click)="collapse()">
+        <mat-icon color="primary">{{collapsed ? 'expand_more' : 'expand_less'}}</mat-icon>
+      </button>
+    </div>
+
+    <div class="selector">
+      <button mat-mini-fab class="prev" color="basic" (click)="goMonth(-1)">
+        <mat-icon color="primary">keyboard_arrow_left</mat-icon>
+      </button>
+      <span class="selector-month">{{ this.dateService.date$ |async |moment: 'MMMM YYYY' }}</span>
+      <button mat-mini-fab class="next" color="basic" (click)="goMonth(1)">
+        <mat-icon color="primary">keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="calendar-body">
+    <div class="calendar-table {{collapsed ? 'table-collapsed' : ''}}">
+      <table>
+        <thead>
+        <tr>
+          <th class="weekday">Пн</th>
+          <th class="weekday">Вт</th>
+          <th class="weekday">Ср</th>
+          <th class="weekday">Чт</th>
+          <th class="weekday">Пт</th>
+          <th class="saturday">Сб</th>
+          <th class="sunday">Вс</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let week of calendar">
+          <td
+            *ngFor="let day of week.days; let i = index"
+            [class.weekday]="i<5"
+            [class.saturday]="i==5"
+            [class.sunday]="i==6"
+            [class.disabled]="day.disabled"
+            [class.selected]="day.selected"
+            (click)="!day.disabled && select(day.value)"
+          >
+            <div class="day" [class.active]="day.active">{{ day.value | moment: 'DD' }}</div>
+            <div class="counter" *ngIf="day.dayTasks">{{day.dayTasks}}</div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="calendar-organizer">
+      <app-organizer></app-organizer>
+    </div>
+  </div>
+
 </div>
 

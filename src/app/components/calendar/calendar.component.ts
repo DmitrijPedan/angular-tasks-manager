@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DateService } from '../../shared/services/date.service';
 import { TasksService } from '../../shared/services/tasks.service';
 import { Week } from '../../shared/interfaces/interfaces';
+import { ClockService } from '../../shared/services/clock.sevice';
 
 moment.locale('ru');
 
@@ -16,9 +17,11 @@ moment.locale('ru');
 export class CalendarComponent implements OnInit {
   calendar: Week[];
   tasks = [];
+  collapsed = false;
   constructor(
-    private dateService: DateService,
-    public tasksService: TasksService
+    public dateService: DateService,
+    public tasksService: TasksService,
+    public clockService: ClockService
   ) { }
   ngOnInit(): void {
     this.dateService.date$.subscribe(this.generate.bind(this));
@@ -41,7 +44,7 @@ export class CalendarComponent implements OnInit {
           const active = moment().isSame(value, 'date');
           const disabled = !now.isSame(value, 'month');
           const selected = now.isSame(value, 'date');
-          const dayTasks = this.tasks.filter(task => task.date === value.format('DD-MM-YYYY'));
+          const dayTasks = this.tasks.filter(task => task.date === value.format('DD-MM-YYYY')).length;
           return {
             value, active, disabled, selected, dayTasks
           };
@@ -53,5 +56,10 @@ export class CalendarComponent implements OnInit {
   select(day: moment.Moment): void {
     this.dateService.changeDate(day);
   }
-
+  goMonth(dir: number): void {
+    this.dateService.changeMonth(dir);
+  }
+  collapse(): void {
+    this.collapsed = !this.collapsed;
+  }
 }

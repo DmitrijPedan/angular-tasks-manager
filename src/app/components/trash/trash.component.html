@@ -53,7 +53,7 @@
           <div class="info">
             <span class="name">{{ task.title }}</span>
             <span class="done {{task.isDone && 'is-done'}}">{{ task.isDone ? 'Выполнена' : 'Не выполнена' }}</span>
-            <span class="create">Дата создания: {{ task.date }}</span>
+            <span class="create">Дата создания: {{ task.updated | moment : 'DD-MM-YYYY' }}</span>
           </div>
           <div class="checkbox">
             <span class="material-icons">{{task.selected ? 'check_box' : 'check_box_outline_blank'}}</span>

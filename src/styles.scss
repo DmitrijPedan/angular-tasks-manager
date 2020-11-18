@@ -5,10 +5,14 @@
   --dark-color: #767474;
   --light-color: #f4f4f4;
   --border-color: #b3b3b3;
-  --weekday-color: #ff4d4d;
-  --black-color: #111111;
-  --task-color: rgba(246, 210, 141, 0.84);
   --selected-task: #e7e7e7;
+  --completed: #66f566;
+  --not-completed: #ff4d4d;
+
+  --background-color: #fff;
+  --text-color:  #111111;
+  --not-active: #bababa;
+  --accent-color: #ff4d4d;
 }
 
 .app-name {
@@ -66,7 +70,7 @@ input {
   max-width: 1100px;
   margin: auto;
   overflow: hidden;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 table th {

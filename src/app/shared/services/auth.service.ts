@@ -25,7 +25,8 @@ export class AuthService {
       email: user.email,
       password: user.password,
       displayName: user.displayName,
-      returnSecureToken: true});
+      returnSecureToken: true,
+    });
   }
   login(user): void{
     this.loaderService.loading$.next(true);

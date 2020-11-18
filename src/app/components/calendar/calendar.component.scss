@@ -1,71 +1,178 @@
-.calendar {
 
+$breakpoint: 768px;
+
+//header
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  .collapse {
+    display: none;
+    @media (max-width: $breakpoint) {
+      display: initial;
+    }
+  }
 }
 
-table {
-  width: 100%;
-  table-layout: fixed;
-  margin-bottom: 1rem;
-  border-collapse: collapse;
-  color: var(--black-color);
-  background-color: transparent;
-  th {
-    background-color: transparent;
-    font-size: 12px;
-    max-height: 2.5rem;
-    vertical-align: top;
-    padding: 5px;
+.selector {
+  padding: 20px 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex: 1 1 auto;
+  @media (max-width: $breakpoint) {
+    flex: 0 1 auto;
   }
-  th.sunday, th.saturday  {
-    color: var(--weekday-color);
+  *:not(:last-child) {
+    margin-right: 1.5rem;
   }
-  td {
+  .prev {
+    order: 1;
+    @media (max-width: $breakpoint) {
+      order: 2;
+    }
+  }
+  &-month {
+    order: 2;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    @media (max-width: $breakpoint) {
+      order: 1;
+    }
+  }
+  .next {
+    order: 3;
+  }
+}
+
+//body
+.calendar-body {
+  display: flex;
+  flex-direction: row;
+  @media (max-width: $breakpoint) {
+    flex-direction: column;
+  }
+}
+
+.calendar-table, .calendar-organizer {
+  padding: 1rem;
+}
+.calendar-table {
+  @media (max-width: $breakpoint) {
+    padding: 0;
+  }
+}
+
+.calendar-organizer {
+  flex: 1 1 auto;
+  @media (max-width: $breakpoint) {
     border: 1px solid var(--border-color);
-    height: 5rem;
-    vertical-align: top;
-    text-align: center;
-    transition: all .2s;
-    font-size: 12px;
-    overflow: hidden;
-    padding: 5px;
-    cursor: pointer;
-    &.disabled {
-      opacity: 0.5;
-      cursor: initial;
+  }
+}
+
+.table-collapsed {
+  max-height: 0!important;
+  transition: max-height .5s;
+  overflow: hidden;
+}
+
+.calendar-table {
+  max-height: 1000px;
+  transition: max-height .5s;
+  overflow: hidden;
+  max-width: 40%;
+  @media (max-width: $breakpoint) {
+    max-width: 100%;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    color: var(--text-color);
+    background-color: transparent;
+    font-size: .8rem;
+    @media (max-width: $breakpoint) {
+      font-size: 1rem;
     }
-    &:hover:not(.disabled) {
-      background-color: rgba(121, 186, 243, 0.25);
-      .calendar-day {
-        color: black;
+    th {
+      max-height: 2.5rem;
+      vertical-align: top;
+      padding: 5px;
+      background-color: transparent;
+    }
+    th.sunday, th.saturday  {
+      color: var(--accent-color);
+    }
+    td {
+      position: relative;
+      &:before {
+        content: "";
+        padding-top: 100%;
+        display: block;
       }
-    }
-    .active {
-      color:var(--primary-color);
-      font-weight: bold;
-    }
-    &.selected {
-      color: black;
-      background-color: rgba(121, 186, 243, 0.25);
-      .calendar-day {
-        font-weight: bold;
+      vertical-align: top;
+      text-align: center;
+      transition: all .2s;
+      overflow: hidden;
+      cursor: pointer;
+      .active {
+        border: 1px solid var(--primary-color);
+      }
+      &.disabled {
+        opacity: 0.5;
+        cursor: initial;
+      }
+      &:hover:not(.disabled) {
+        .day {
+          background-color: var(--primary-color);
+          color: var(--light-color);
+        }
+      }
+      &.selected {
+        color: black;
+        .day {
+          background-color: var(--primary-color);
+          color: var(--light-color);
+        }
       }
     }
   }
 }
 
-.td-content {
-  max-height: 5rem;
+.day {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.day-task {
-  margin-bottom: 2px;
-  max-width: 95%;
-  white-space: nowrap;
-  word-wrap: break-word;
-  overflow: hidden;
-  text-align: left;
-  font-weight: normal;
-  background-color: var(--task-color);
-  padding: 2px;
-  border-radius: 2px;
+
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  @media (max-width: $breakpoint) {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 8px;
+  }
 }
+
+
